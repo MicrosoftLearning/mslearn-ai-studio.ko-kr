@@ -13,7 +13,6 @@ lab:
 
 이 연습을 완료하려면 다음이 필요합니다.
 
-- Azure OpenAI Service에 대한 액세스가 승인된 Azure 구독입니다. [등록 양식을](https://learn.microsoft.com/legal/cognitive-services/openai/limited-access?WT.mc_id=academic-140829-cacaste) 작성하여 Azure OpenAI 모델에 대한 액세스를 요청합니다.
 - GitHub 계정으로 프로젝트 리포지토리를 포크하고 GitHub Codespaces 환경에서 테스트합니다. [GitHub에서](https://github.com/) 무료 계정을 만듭니다.
 - 의미 체계 순위매기기를 활성화하기 위한 Azure AI Search의 기본 계층입니다. [AI Search의 가격 책정 세부 정보](https://azure.microsoft.com/pricing/details/search/)에 대해 자세히 알아봅니다.
 - 세 개의 OpenAI 모델(`gpt-35-turbo`, `gpt-4`, `text-embedding-ada-002`) 배포 모델을 배포하려면 할당량이 충분한 지역에 AI 허브를 만들어야 합니다. [모델 하위 지역 가용성](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?WT.mc_id=academic-140829-cacaste#model-summary-table-and-region-availability)에 대해 자세히 알아봅니다.
@@ -52,13 +51,13 @@ Retail Copilot 솔루션은 RAG(검색 증강 생성) 패턴을 사용하여 회
 
 1. [최신 버전](https://github.com/Azure/azure-dev/releases/tag/azure-dev-cli_1.9.3)의 Azure Developer CLI가 설치되어 있는지 확인합니다.
     ```bash
-        azd version
+    azd version
     ```
 
 1. 다음으로 VS Code 터미널에서 Azure 계정에 로그인합니다.
 
     ```bash
-        azd auth login 
+    azd auth login 
     ```
 
 ## 프로젝트에 대한 Azure 리소스 프로비전
@@ -68,7 +67,7 @@ Retail Copilot 솔루션은 RAG(검색 증강 생성) 패턴을 사용하여 회
 1. azd를 사용하여 AI 애플리케이션을 프로비전하고 *배포*합니다.
 
     ```bash
-        azd up
+    azd up
     ```
 
 1. 다음과 같은 프롬프트가 표시됩니다. 아래 지침을 사용하여 응답합니다.
@@ -145,7 +144,7 @@ Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할
 1. 이제 다음 테스트 **입력**을 사용하여 Copilot 배포를 테스트합니다.
 
     ```bash
-      {"question": "tell me about your hiking shoes", "customerId": "2", "chat_history": []}
+    {"question": "tell me about your hiking shoes", "customerId": "2", "chat_history": []}
     ```
 
 표시된 대로 출력 구성 요소에서 유효한 JSON 응답을 가져와야 합니다.
@@ -194,13 +193,13 @@ Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할
 1. 개발 환경에 **Promptflow 도구**가 설치되어 있는지 확인합니다.
 
     ```bash
-        pf version
+    pf version
     ```
 
 1. **pf 흐름 테스트** 도구를 사용하여 아래 샘플 질문과 함께 **contoso_chat** flex 흐름 애플리케이션을 로컬로 테스트합니다. 입력을 전달하기 위한 명령의 구문을 확인합니다.
 
     ```bash
-        pf flow test --flow ./contoso_chat --inputs question="tell me about your jackets" customerId="3" chat_history=[]
+    pf flow test --flow ./contoso_chat --inputs question="tell me about your jackets" customerId="3" chat_history=[]
     ```
 
 다음과 같은 응답을 받아야 합니다.
@@ -212,7 +211,7 @@ Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할
 1. 아래와 같이 `--ui` 플래그를 사용하여 실행 세부 정보를 추적할 수 있습니다.
 
     ```bash
-        pf flow test --flow ./contoso_chat --inputs question="tell me about your jackets" customerId="3" chat_history=[] --ui
+    pf flow test --flow ./contoso_chat --inputs question="tell me about your jackets" customerId="3" chat_history=[] --ui
     ```
 
 이 명령은 대기 시간 및 토큰 사용을 포함하여 해당 테스트 실행에 대한 개략적인 세부 정보를 제공하는 테이블이 있는 새 탭의 브라우저에서 **추적 보기**를 시작해야 합니다.
@@ -317,7 +316,7 @@ GitHub Actions를 통해 앱 평가 파이프라인을 실행하는 데 사용�
 이 프로젝트는 장기간 실행될 경우 사소한 비용이 발생할 수 있는 모델 및 서비스(예: Azure AI Search)를 사용합니다. Azure AI AZD 템플릿 탐색을 마치면 불필요한 Azure 비용을 피하기 위해 생성한 리소스를 삭제해야 합니다. VS Code 터미널에서 다음 명령을 실행하여 이 작업을 수행할 수 있습니다.
 
 ```bash
-    azd down
+azd down
 ```
 
 이렇게 하면 애플리케이션을 프로비전하고 배포하는 단계를 되돌릴 뿐만 아니라 "일시 삭제" 상태로 유지될 수 있는 리소스를 *제거*하는 추가 단계가 수행되어 리소스 이름을 다시 사용하거나 모델 할당량을 회수하는 기능에 영향을 줍니다. **이 명령은 종료 중에 이러한 작업에 대해 묻는 메시지를 표시하므로 올바르게 응답해야 합니다.**
