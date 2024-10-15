@@ -1,11 +1,13 @@
 ---
 lab:
-  title: Azure AI 스튜디오의 구성 요소 및 도구 살펴보기
+  title: Azure AI Studio 살펴보기
 ---
 
-# Azure AI 스튜디오의 구성 요소 및 도구 살펴보기
+# Azure AI Studio 살펴보기
 
 이 연습에서는 Azure AI 스튜디오를 사용하여 프로젝트를 만들고 생성형 AI 모델을 탐색합니다.
+
+> 이 연습을 완료하려면 Azure OpenAI service에 대한 액세스를 위해 Azure 구독이 승인되어야 합니다. [등록 양식을](https://learn.microsoft.com/legal/cognitive-services/openai/limited-access) 작성하여 Azure OpenAI 모델에 대한 액세스를 요청합니다.
 
 이 연습에는 약 **30**분이 소요됩니다.
 

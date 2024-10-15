@@ -9,10 +9,6 @@ lab:
 
 이 연습은 약 **45**분 정도 소요됩니다.
 
-## 시작하기 전에
-
-이 연습을 완료하려면 Azure OpenAI service에 대한 액세스를 위해 Azure 구독이 승인되어야 합니다. [등록 양식을](https://learn.microsoft.com/legal/cognitive-services/openai/limited-access) 작성하여 Azure OpenAI 모델에 대한 액세스를 요청합니다.
-
 ## Azure AI 스튜디오에서 AI 허브 및 프로젝트 만들기
 
 먼저 Azure AI 허브 내에서 Azure AI 스튜디오 프로젝트를 만듭니다.
