@@ -75,9 +75,9 @@ lab:
 1. 채팅 창에서 모델에게 여행 관련 질문에 답하도록 지시하는 시스템 메시지를 지정하지 않았음에도 불구하고 모델이 포커스가 되어야 하는 사항을 이미 이해하고 있다는 쿼리 `What can you do?` 알림을 입력합니다.
 1. `Where should I go on holiday for my 30th birthday?`와 같은 다른 쿼리를 사용해 보세요.
 
-## Azure 리소스 삭제
+## 정리
 
-Azure AI 스튜디오 탐색을 마치면 불필요한 Azure 비용을 피하기 위해 생성한 리소스를 삭제해야 합니다.
+Azure AI 스튜디오 살펴보기를 마치면 생성한 리소스를 삭제하여 불필요한 Azure 비용을 방지합니다.
 
 - `https://portal.azure.com`에서 [Azure Portal](https://portal.azure.com)로 이동합니다.
 - Azure Portal의 **홈** 페이지에서 **리소스 그룹**을 선택합니다.
