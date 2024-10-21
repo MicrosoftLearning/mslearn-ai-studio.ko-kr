@@ -1,13 +1,20 @@
 ---
 lab:
-  title: Azure AI 스튜디오에서 프롬프트 흐름으로 사용자 지정 Copliot 빌드
+  title: Azure AI 스튜디오에서 프롬프트 흐름으로 사용자 지정 Copliot 빌드 시작하기
 ---
 
-# Azure AI 스튜디오에서 프롬프트 흐름으로 사용자 지정 Copliot 빌드
+# Azure AI 스튜디오에서 프롬프트 흐름으로 사용자 지정 Copliot 빌드 시작하기
 
 이 연습에서는 Azure AI 스튜디오의 프롬프트 흐름을 사용하여 사용자 프롬프트와 채팅 기록을 입력으로 사용하고 Azure OpenAI의 GPT 모델을 사용하여 출력을 생성하는 사용자 지정 Copilot을 만들어 보겠습니다.
 
-이 연습은 약 **30**분 정도 소요됩니다.
+> 이 연습을 완료하려면 Azure OpenAI service에 대한 액세스를 위해 Azure 구독이 승인되어야 합니다. [등록 양식을](https://learn.microsoft.com/legal/cognitive-services/openai/limited-access) 작성하여 Azure OpenAI 모델에 대한 액세스를 요청합니다.
+
+프롬프트 흐름을 사용하여 Copilot을 빌드하려면 다음을 수행해야 합니다.
+
+- Azure AI 스튜디오 내에서 AI 허브 및 프로젝트를 만듭니다.
+- GPT 모델을 배포합니다.
+- 배포된 GPT 모델을 사용하여 사용자의 입력에 따라 답변을 생성하는 흐름을 만듭니다.
+- 흐름을 테스트하고 배포합니다.
 
 ## Azure AI 스튜디오에서 AI 허브 및 프로젝트 만들기
 
@@ -38,7 +45,7 @@ lab:
     > \* Azure OpenAI 리소스는 지역 할당량에 따라 테넌트 수준에서 제한됩니다. 나열된 지역에는 이 연습에 사용된 모델 형식에 대한 기본 할당량이 포함되어 있습니다. 지역을 무작위로 선택하면 단일 지역이 할당량 한도에 도달할 위험이 줄어듭니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다. [지역별 모델 가용성](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-35-turbo-model-availability)에 대해 자세히 알아보기
 
 1. 구성을 검토하고 프로젝트를 만듭니다.
-1. 프로젝트가 만들어질 때까지 기다립니다.
+1. 프로젝트가 만들어질 때까지 5-10분 정도 기다립니다.
 
 ## GPT 모델 배포
 
@@ -59,7 +66,7 @@ lab:
 
 1. **시스템 메시지**를 다음과 같이 변경합니다.
 
-   ```md
+   ```
    **Objective**: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
 
    **Capabilities**:
@@ -85,18 +92,6 @@ lab:
 ## Azure AI 스튜디오에서 채팅 흐름 만들기 및 실행
 
 템플릿에서 새 흐름을 만들거나 플레이그라운드의 구성에 따라 흐름을 만들 수 있습니다. 이미 플레이그라운드에서 실험을 했으므로 이 옵션을 사용하여 새 흐름을 만듭니다.
-
-<details>  
-    <summary><b>문제 해결 팁</b>: 사용 권한 오류</summary>
-    <p>새 프롬프트 흐름을 만들 때 사용 권한 오류가 표시되는 경우 다음을 시도하여 문제를 해결합니다.</p>
-    <ul>
-        <li>Azure Portal에서 AI 서비스 리소스를 선택합니다.</li>
-        <li>IAM 페이지의 ID 탭에서 시스템이 할당한 관리 ID인지 확인합니다.</li>
-        <li>관련된 스토리지 계정으로 이동합니다. IAM 페이지에서 역할 할당 <em>스토리지 Blob 데이터 독자</em>를 추가합니다.</li>
-        <li><strong>액세스 권한 할당 대상</strong>에서 <strong>관리 ID</strong>, <strong>+구성원 선택</strong>, <strong>모든 시스템 할당 관리 ID</strong>를 선택합니다.</li>
-        <li>새 설정을 검토하고 할당하여 저장하고 이전 단계를 다시 시도합니다.</li>
-    </ul>
-</details>
 
 1. **채팅 플레이그라운드**의 상단 바에서 **프롬프트 흐름**을 선택합니다.
 1. 폴더 이름으로 `Travel-Chat`를 입력합니다.
