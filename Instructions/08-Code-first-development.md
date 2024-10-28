@@ -37,17 +37,18 @@ Retail Copilot 솔루션은 RAG(검색 증강 생성) 패턴을 사용하여 회
 
 개발 환경을 초기화하려면 다음 단계를 수행합니다.
 
-1. **리포지토리 포크**: GitHub 리포지토리 페이지의 오른쪽 위에 있는 **포크** 단추를 선택하여 GitHub 계정에 리포지토리의 복사본을 만듭니다.
+1. **contoso-chat** 리포지토리로 이동합니다.`https://github.com/Azure-Samples/contoso-chat`
+1. contoso-chat GitHub 리포지토리 페이지의 오른쪽 위에 있는 **포크** 단추를 선택하여 GitHub 계정에 리포지토리의 복사본을 만듭니다.
 1. 포크된 리포지토리가 있으면 **코드** 버튼을 선택하고 **Codespaces**를 선택합니다.
 1. **+** 버튼을 선택하여 포크된 리포지토리의 기본 분기에 새 codespace를 만듭니다.
 
     ![GitHub Codespaces 만들기](./media/create_codespaces.png)
 
-1. 몇 초 후에 Codespaces 환경이 기본적으로 [연결된 Visual Studio Code 편집기](https://code.visualstudio.com/docs/devcontainers/containers)를 사용하여 설정되는 새 브라우저 탭으로 리디렉션됩니다. 브라우저 탭에서 작업을 계속하거나 왼쪽 위 메뉴에서 **VS Code Desktop에서 열기** 버튼을 클릭하여 로컬 Visual Studio Code 편집기에서 실행 중인 Codespaces에 다시 연결할 수 있습니다.
+1. 몇 초 후에 Codespaces 환경이 기본적으로 [연결된 Visual Studio Code 편집기](https://code.visualstudio.com/docs/devcontainers/containers)를 사용하여 설정되는 새 브라우저 탭으로 리디렉션됩니다.
 
 ## AZURE에 VS Code 환경 연결
 
-다음 단계는 프로젝트를 배포하려는 Azure 구독과 로컬 개발 환경을 연결하는 작업입니다. 먼저 Visual Studio Code IDE에서 새 터미널을 엽니다.
+다음 단계는 프로젝트를 배포하려는 Azure 구독과 개발 환경을 연결하는 작업입니다. 먼저 Codespaces에서 실행되는 VS Code 환경에서 새 터미널을 엽니다.
 
 1. [최신 버전](https://github.com/Azure/azure-dev/releases/tag/azure-dev-cli_1.9.3)의 Azure Developer CLI가 설치되어 있는지 확인합니다.
     ```bash
