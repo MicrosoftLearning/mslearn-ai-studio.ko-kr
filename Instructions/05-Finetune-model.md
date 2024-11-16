@@ -5,9 +5,13 @@ lab:
 
 # Azure AI 스튜디오에서 채팅 완료를 위한 언어 모델 미세 조정
 
-이 연습에서는 사용자 지정 Copilot 시나리오에 사용하려는 Azure AI 스튜디오를 통해 언어 모델을 미세 조정합니다.
+언어 모델이 특정 방식으로 작동하도록 하려는 경우 프롬프트 엔지니어링을 사용하여 원하는 동작을 정의할 수 있습니다. 원하는 동작의 일관성을 개선하려는 경우 모델을 미세 조정하고, 이를 프롬프트 엔지니어링 접근 방식과 비교하여 어떤 방법이 가장 적합한지 평가할 수 있습니다.
 
-이 연습은 약 **45**분 정도 소요됩니다.
+이 연습에서는 사용자 지정 채팅 애플리케이션 시나리오에 사용하려는 언어 모델을 Azure AI 스튜디오로 미세 조정합니다. 미세 조정된 모델과 베이스 모델을 비교하여 미세 조정된 모델이 사용자의 요구 사항에 더 적합한지 평가할 수 있습니다.
+
+여행사에서 일하면서 사람들의 휴가 계획을 도와주는 채팅 애플리케이션을 개발 중이라고 가정해 보겠습니다. 목적지와 활동을 제안하는 간단하면서도 영감을 주는 채팅을 만드는 것이 목표입니다. 채팅은 데이터 원본에 연결되어 있지 않으므로 고객과의 신뢰를 확보하기 위해 호텔, 항공편 또는 레스토랑에 대한 구체적인 추천을 **제공하지 않아야** 합니다.
+
+이 연습은 약 **60**분 정도 소요됩니다.
 
 ## Azure AI 스튜디오에서 AI 허브 및 프로젝트 만들기
 
@@ -18,27 +22,26 @@ lab:
 1. **새 프로젝트 만들기** 마법사에서 다음 설정을 사용하여 프로젝트를 만듭니다.
     - **프로젝트 이름**: *프로젝트의 고유한 이름*
     - **허브**: *다음 설정으로 새 허브를 만듭니다*.
-        - **허브 이름**: *고유 이름*
-        - **구독**: ‘Azure 구독’
-        - **리소스 그룹**: *새 리소스 그룹*
-        - **위치**: *다음 지역 중 하나를 **임의로** 선택합니다.*\*
-        - 미국 동부 2
-        - 미국 중북부
-        - 스웨덴 중부
-        - 스위스 북부
-    - **Azure AI 서비스 또는 Azure OpenAI 연결**: *새 연결 만들기*
+    - **허브 이름**: *고유 이름*
+    - **구독**: ‘Azure 구독’
+    - **리소스 그룹**: *새 리소스 그룹*
+    - **위치**: 다음 지역 **East US2**, **미국 중북부**, **스웨덴 중부**, **스위스 서부**\* 중 하나를 선택합니다.
+    - **Azure AI 서비스 또는 Azure OpenAI 연결**: (신규) *선택한 허브 이름으로 자동 채우기*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
-    > \* Azure OpenAI 리소스는 지역 할당량에 따라 테넌트 수준에서 제한됩니다. 나열된 지역에는 이 연습에 사용된 모델 형식에 대한 기본 할당량이 포함되어 있습니다. 지역을 무작위로 선택하면 단일 지역이 할당량 한도에 도달할 위험이 줄어듭니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다. [지역별 모델 가용성](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/fine-tuning-overview#azure-openai-models)에 대해 자세히 알아보기
+    > \* Azure OpenAI 리소스는 지역 할당량에 따라 테넌트 수준에서 제한됩니다. 위치 도우미에 나열된 지역에는 이 연습에 사용된 모델 유형에 대한 기본 할당량이 포함되어 있습니다. 지역을 무작위로 선택하면 단일 지역이 할당량 한도에 도달할 위험이 줄어듭니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다. [미세 조정 모델 지역](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models?tabs=python-secure%2Cglobal-standard%2Cstandard-chat-completions#fine-tuning-models) 자세히 알아보기
 
 1. 구성을 검토하고 프로젝트를 만듭니다.
 1. 프로젝트가 만들어질 때까지 기다립니다.
 
 ## GPT-3.5 모델 미세 조정
 
-모델을 미세 조정하려면 데이터 세트가 필요합니다.
+모델 미세 조정을 완료하는 데 다소 시간이 걸리기 때문에 먼저 미세 조정 작업을 시작합니다. 모델을 미세 조정하려면 데이터 세트가 필요합니다.
 
-1. 학습 데이터 세트를 JSONL 파일로 로컬로 저장합니다. https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-finetune.jsonl 
+1. 학습 데이터 세트를 JSONL 파일로 로컬로 저장합니다. [https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-finetune.jsonl](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel-finetune-hotel.jsonl) 
+
+    > **참고**: 디바이스는 기본적으로 파일을 .txt 파일로 저장할 수 있습니다. 모든 파일을 선택하고 .txt 접미사를 제거하여 파일을 JSONL 형식으로 저장합니다.
+
 1. 왼쪽 메뉴를 사용하여 **도구** 섹션 아래의 **미세 조정** 페이지로 이동합니다.
 1. 버튼을 선택하여 새 미세 조정 모델을 추가하고 `gpt-35-turbo` 모델을 선택한 다음 **확인**을 선택합니다.
 1. 다음 구성을 사용하여 모델을 **미세 조정**합니다.
@@ -46,19 +49,66 @@ lab:
     - **모델 접미사**: `ft-travel`
     - **Azure OpenAI 연결**: *허브를 만들 때 생성된 연결을 선택합니다*.
     - **학습 데이터**: 파일 업로드
+
+    <details>  
+    <summary><b>문제 해결 팁</b>: 사용 권한 오류</summary>
+    <p>새 프롬프트 흐름을 만들 때 사용 권한 오류가 표시되는 경우 다음을 시도하여 문제를 해결합니다.</p>
+    <ul>
+        <li>Azure Portal에서 AI 서비스 리소스를 선택합니다.</li>
+        <li>IAM 페이지의 ID 탭에서 시스템이 할당한 관리 ID인지 확인합니다.</li>
+        <li>관련된 스토리지 계정으로 이동합니다. IAM 페이지에서 역할 할당 <em>스토리지 Blob 데이터 독자</em>를 추가합니다.</li>
+        <li><strong>접근 권한 할당</strong>에서 <strong>관리 ID</strong>, <strong>+ 구성원 선택</strong>, <strong>시스템에서 할당된 모든 관리 ID</strong>를 차례로 선택합니다.</li>
+        <li>새 설정을 검토하고 할당하여 저장하고 이전 단계를 다시 시도합니다.</li>
+    </ul>
+    </details>
+
     - **파일 업로드**: 이전 단계에서 다운로드한 JSONL 파일을 선택합니다.
-
-    > **팁**: 다음 단계로 계속 진행하기 위해 데이터 처리가 완료될 때까지 기다릴 필요가 없습니다.
-
     - **유효성 검사 데이터**: 없음
     - **작업 매개 변수**: *기본 설정 유지*
 1. 미세 조정이 시작되고 완료하는 데 다소 시간이 걸릴 수 있습니다.
 
-> **참고**: 미세 조정 및 배포에는 다소 시간이 걸릴 수 있으므로 다음 단계를 완료하기 위해 주기적으로 다시 확인해야 할 수 있습니다.
+> **참고**: 미세 조정 및 배포에는 다소 시간이 걸릴 수 있으므로 주기적으로 다시 확인해야 할 수 있습니다. 기다리는 동안 다음 단계를 계속 진행할 수 있습니다.
+
+## 베이스 모델 채팅
+
+미세 조정 작업이 완료될 때까지 기다리는 동안 GPT 3.5 베이스 모델로 채팅하여 성능을 평가해 보겠습니다.
+
+1. 왼쪽 메뉴를 사용하여 **구성 요소** 섹션 아래의 **배포** 페이지로 이동합니다.
+1. **+ 모델 배포** 버튼을 선택하고 **베이스 모델 배포** 옵션을 선택합니다.
+1. 미세 조정할 때 사용한 것과 동일한 종류의 모델인 `gpt-35-turbo` 모델을 배포합니다.
+1. 배포가 완료되면 **프로젝트 플레이그라운드** 섹션 아래의 **채팅** 페이지로 이동합니다.
+1. 설정 배포에서 배포된 `gpt-35-model` 베이스 모델을 선택합니다.
+1. 채팅 창에 `What can you do?`와 같은 쿼리를 입력하고 응답을 확인합니다.
+    대답은 매우 일반적입니다. 사람들이 여행하는 데 영감을 주는 채팅 애플리케이션을 만들고 싶습니다.
+1. 다음 프롬프트를 사용하여 시스템 메시지를 업데이트합니다.
+    ```md
+    You are an AI assistant that helps people plan their holidays.
+    ```
+1. **저장**을 선택한 다음 **채팅 지우기**를 선택하고 다시 물어보면 `What can you do?` 도우미가 여행에 필요한 항공권, 호텔, 렌터카 예약을 도와줄 수 있다고 대답할 수 있습니다. 이러한 동작을 피하고 싶을 수 있습니다.
+1. 새 프롬프트를 사용하여 시스템 메시지를 다시 업데이트합니다.
+
+    ```md
+    You are an AI travel assistant that helps people plan their trips. Your objective is to offer support for travel-related inquiries, such as visa requirements, weather forecasts, local attractions, and cultural norms.
+    You should not provide any hotel, flight, rental car or restaurant recommendations.
+    Ask engaging questions to help someone plan their trip and think about what they want to do on their holiday.
+    ```
+
+1. **저장** 및 **채팅 지우기**를 선택합니다.
+1. 채팅 애플리케이션을 계속 테스트하여 검색된 데이터에 근거하지 않은 정보를 제공하지는 않는지 확인합니다. 예를 들어, 다음 질문을 하고 모델의 답변을 확인합니다.
+   
+    `Where in Rome should I stay?`
+    
+    `I'm mostly there for the food. Where should I stay to be within walking distance of affordable restaurants?`
+
+    `Give me a list of five bed and breakfasts in Trastevere.`
+
+    사용자가 호텔 추천을 제공하지 말라고 지시한 경우에도 모델이 호텔 목록을 제공할 수 있습니다. 이는 일관성 없는 동작의 한 예입니다. 이러한 경우 미세 조정된 모델이 더 나은 성능을 보이는지 살펴 보겠습니다.
+
+1. **도구**의 **미세 조정** 페이지로 이동하여 미세 조정 작업과 그 상태를 확인합니다. 아직 실행 중인 경우 배포된 베이스 모델을 계속 수동으로 평가하도록 선택할 수 있습니다. 완료되면 다음 섹션을 계속 진행할 수 있습니다.
 
 ## 미세 조정된 모델 배포
 
-미세 조정이 완료되면 모델을 배포할 수 있습니다.
+미세 조정이 성공적으로 완료되면 미세 조정된 모델을 배포할 수 있습니다.
 
 1. 미세 조정된 모델을 선택합니다. **메트릭** 탭을 선택하고 미세 조정 메트릭을 탐색합니다.
 1. 다음 구성을 사용하여 미세 조정된 모델을 배포합니다.
@@ -66,14 +116,28 @@ lab:
     - **배포 유형**: 표준
     - **분당 토큰 속도 제한(천 )**: 5K
     - **콘텐츠 필터**: 기본값
+1. 배포가 완료될 때까지 기다렸다가 테스트할 수 있으며, 시간이 걸릴 수 있습니다.
 
 ## 미세 조정된 모델 테스트
 
-이제 미세 조정된 모델을 배포했으므로 배포된 다른 모델을 테스트할 수 있는 것처럼 모델을 테스트할 수 있습니다.
+이제 미세 조정된 모델을 배포했으므로 배포된 베이스 모델을 테스트하는 것처럼 모델을 테스트할 수 있습니다.
 
 1. 배포가 준비되면 미세 조정된 모델로 이동하고 **플레이그라운드에서 열기**를 선택합니다.
-1. 채팅 창에서 모델에게 여행 관련 질문에 답하도록 지시하는 시스템 메시지를 지정하지 않았음에도 불구하고 모델이 포커스가 되어야 하는 사항을 이미 이해하고 있다는 쿼리 `What can you do?` 알림을 입력합니다.
-1. `Where should I go on holiday for my 30th birthday?`와 같은 다른 쿼리를 사용해 보세요.
+1. 다음 지침에 따라 시스템 메시지를 업데이트합니다.
+
+    ```md
+    You are an AI travel assistant that helps people plan their trips. Your objective is to offer support for travel-related inquiries, such as visa requirements, weather forecasts, local attractions, and cultural norms.
+    You should not provide any hotel, flight, rental car or restaurant recommendations.
+    Ask engaging questions to help someone plan their trip and think about what they want to do on their holiday.
+    ```
+
+1. 미세 조정된 모델을 테스트하여 현재 동작이 더 일관성 있게 유지되는지 평가합니다. 예를 들어 다음 질문을 다시 하고 모델의 답변을 확인합니다.
+   
+    `Where in Rome should I stay?`
+    
+    `I'm mostly there for the food. Where should I stay to be within walking distance of affordable restaurants?`
+
+    `Give me a list of five bed and breakfasts in Trastevere.`
 
 ## 정리
 
