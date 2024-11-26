@@ -1,17 +1,17 @@
 ---
 lab:
-  title: Azure AI 스튜디오에서 사용자 지정 Copilot의 성능 평가
+  title: Azure AI Foundry에서 사용자 지정 Copilot의 성능 평가
 ---
 
-# Azure AI 스튜디오에서 사용자 지정 Copilot의 성능 평가
+# Azure AI Foundry에서 사용자 지정 Copilot의 성능 평가
 
-이 연습에서는 기본 제공 및 사용자 지정 평가를 탐색하여 AI 애플리케이션의 성능을 평가하고 Azure AI 스튜디오와 비교합니다.
+이 연습에서는 Azure AI Foundry 포털을 통해 AI 애플리케이션의 성능을 평가하고 비교하기 위한 기본 제공 및 사용자 지정 평가를 탐색합니다.
 
 이 연습은 약 **30**분 정도 소요됩니다.
 
-## Azure AI 스튜디오에서 AI 허브 및 프로젝트 만들기
+## Azure AI Foundry에서 AI 허브 및 프로젝트 만들기
 
-먼저 Azure AI 허브 내에서 Azure AI 스튜디오 프로젝트를 만듭니다.
+먼저 Azure AI 허브 내에서 Azure AI Foundry 프로젝트를 만듭니다.
 
 1. 웹 브라우저에서 [https://ai.azure.com](https://ai.azure.com)을(를) 열고 Azure 자격 증명을 사용하여 로그인합니다.
 1. **홈** 페이지를 선택한 다음 **+ 새 프로젝트**를 선택합니다.
@@ -30,9 +30,10 @@ lab:
 
 ## GPT 모델 배포
 
-프롬프트 흐름에서 언어 모델을 사용하려면 먼저 모델을 배포해야 합니다. Azure AI 스튜디오를 사용하면 흐름에서 사용할 수 있는 OpenAI 모델을 배포할 수 있습니다.
+프롬프트 흐름에서 언어 모델을 사용하려면 먼저 모델을 배포해야 합니다. Azure AI Foundry 포털을 사용하면 흐름에서 사용할 수 있는 OpenAI 모델을 배포할 수 있습니다.
 
-1. 왼쪽의 탐색 창에서 **구성 요소** 아래의 **배포** 페이지를 선택합니다.
+1. 왼쪽 메뉴를 사용하여 **자산** 섹션 아래의 **모델 + 엔드포인트** 페이지로 이동합니다.
+1. **+ 모델 배포** 버튼을 선택하고 **베이스 모델 배포** 옵션을 선택합니다.
 1. **모델 배포** 마법사에서 **사용자 지정**을 선택하여 다음 설정으로 **gpt-35-turbo** 모델의 새 배포를 만듭니다.
     - **배포 이름**: *모델 배포에 대한 고유한 이름*
     - **배포 유형**: 표준
@@ -62,12 +63,12 @@ lab:
    5. Encourage the user to ask follow-up questions for further assistance.
    ```
 
-1. **저장**을 선택합니다.
-1. 채팅 창에서 쿼리 `What can you do?`를 입력하고 언어 모델이 예상대로 작동하는지 확인합니다.
+1. **변경 내용 적용**을 선택합니다.
+1. 채팅(기록) 창에서 `What can you do?` 쿼리를 입력하여 언어 모델이 예상대로 작동하는지 확인합니다.
 
 이제 업데이트된 시스템 메시지가 포함된 배포된 모델이 있으므로 모델을 평가할 수 있습니다.
 
-## Azure AI 스튜디오에서 언어 모델 수동 평가
+## Azure AI Foundry 포털에서 언어 모델 수동 평가
 
 테스트 데이터를 기반으로 모델 응답을 수동으로 검토할 수 있습니다. 수동으로 검토하면 여러 입력을 한 번에 하나씩 테스트하여 모델이 예상대로 수행되는지 여부를 평가할 수 있습니다.
 
@@ -112,7 +113,13 @@ lab:
 
 ## 기본 제공 메트릭을 사용하여 Copilot 평가
 
-채팅 흐름을 사용하여 Copilot을 만든 경우 일괄 처리를 실행하고 기본 제공 메트릭을 통해 흐름의 성능을 평가하여 흐름을 평가할 수 있습니다.
+프롬프트 흐름을 사용하여 채팅 애플리케이션을 만든 경우 일괄 처리를 실행하고 기본 제공 메트릭을 통해 흐름의 성능을 평가하는 방법으로 흐름을 평가할 수 있습니다.
+
+![평가를 위한 입력 데이터 세트 생성 다이어그램.](./media/diagram-dataset-evaluation.png)
+
+채팅 흐름을 평가하기 위해 사용자 쿼리 및 채팅 응답이 평가를 위한 입력으로 제공됩니다.
+
+시간을 절약하기 위해 프롬프트 흐름에서 처리되는 여러 입력의 결과를 포함하는 일괄 처리 출력 데이터 세트를 만들었습니다. 각 결과는 다음 단계에서 평가할 데이터 세트에 저장됩니다.
 
 1. **자동 평가** 탭을 선택하고 <details> 설정을 사용하여 **새 평가**를 만듭니다.  
       <summary><b>문제 해결 팁</b>: 사용 권한 오류</summary>
@@ -130,7 +137,7 @@ lab:
     - **평가 이름**: *고유한 이름 입력*
     - **다음**을 선택합니다.
     - **평가할 데이터 선택**: 데이터 세트 추가
-        - https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-qa.jsonl JSONL 파일을 다운로드하여 UI에 업로드합니다.
+        - `https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-qa.jsonl`에서 [유효성 검사 데이터 세트](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-qa.jsonl)를 다운로드하여 JSONL 파일로 저장하고 UI에 업로드합니다.
     - **다음**을 선택합니다.
     - **메트릭 선택**: 일관성, 유창성
     - **연결**: *AI 서비스 연결*
@@ -145,7 +152,7 @@ lab:
 
 ## Azure 리소스 삭제
 
-Azure AI 스튜디오 탐색을 마치면 불필요한 Azure 비용을 피하기 위해 생성한 리소스를 삭제해야 합니다.
+Azure AI Foundry 탐색을 마치면 불필요한 Azure 비용을 피하기 위해 생성한 리소스를 삭제해야 합니다.
 
 - `https://portal.azure.com`에서 [Azure Portal](https://portal.azure.com)로 이동합니다.
 - Azure Portal의 **홈** 페이지에서 **리소스 그룹**을 선택합니다.
