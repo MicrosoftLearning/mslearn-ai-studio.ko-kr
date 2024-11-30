@@ -5,7 +5,7 @@ lab:
 
 # 코드 우선 개발 도구를 사용하여 사용자 지정 Copilot 빌드
 
-이 연습에서는 Azure AI 스튜디오의 [AI 프로젝트를 온라인 엔드포인트에 프로비전하고 배포](https://learn.microsoft.com/azure/developer/azure-developer-cli/azure-ai-ml-endpoints?WT.mc_id=academic-140829-cacaste)하는 Azure Developer CLI 템플릿을 복제하고 배포합니다. 그런 다음 이를 시작점으로 사용하여 Azure AI 및 코드 우선 환경을 통해 사용자 지정 Copilot을 빌드합니다.
+이 연습에서는 Azure AI Foundry의 [AI 프로젝트를 온라인 엔드포인트에 프로비전하고 배포](https://learn.microsoft.com/azure/developer/azure-developer-cli/azure-ai-ml-endpoints?WT.mc_id=academic-140829-cacaste)하는 Azure Developer CLI 템플릿을 복제하고 배포합니다. 그런 다음 이를 시작점으로 사용하여 Azure AI 및 코드 우선 환경을 통해 사용자 지정 Copilot을 빌드합니다.
 
 이 연습은 약 **90**분 정도 소요됩니다.
 
@@ -21,7 +21,7 @@ lab:
 
 Azure Developer CLI AI 프로젝트 템플릿을 시작하려면 [Azure Developer CLI 컬렉션을 사용하여 Azure AI 템플릿](https://learn.microsoft.com/collections/5pq0uompdgje8d/?WT.mc_id=academic-140829-cacaste)으로 이동합니다. 컬렉션을 탐색하면 다중 모달 및 다중 에이전트 프로젝트 샘플, Copilot과 같은 프로젝트 및 다양한 프레임워크와 Azure 서비스를 통합하는 샘플을 포함하여 기술 및 사용 사례별로 그룹화된 여러 프로젝트를 찾을 수 있습니다.
 
-이 연습에서는 **[Contoso Chat Retail Copilot과 Azure AI 스튜디오 및 PromptFlow(Python)](https://aka.ms/contoso-retail-sample)** 프로젝트 템플릿을 시작점으로 사용합니다. 이 프로젝트 템플릿은 Prompty 및 PromptFlow를 사용하여 Contoso Outdoors라는 가상 회사의 소매 웹 사이트(채팅 UI)에 통합할 수 있는 사용자 지정 Copilot(채팅 AI)을 빌드하는 코드 우선 환경입니다.
+이 연습에서는 **[Contoso Chat Retail Copilot과 Azure AI Foundry 및 PromptFlow(Python)](https://aka.ms/contoso-retail-sample)** 프로젝트 템플릿을 시작점으로 사용합니다. 이 프로젝트 템플릿은 Prompty 및 PromptFlow를 사용하여 Contoso Outdoors라는 가상 회사의 소매 웹 사이트(채팅 UI)에 통합할 수 있는 사용자 지정 Copilot(채팅 AI)을 빌드하는 코드 우선 환경입니다.
 
 ![Contoso Chat UI/UX](./media/contoso_outdoors_website.png)
 
@@ -83,7 +83,7 @@ Retail Copilot 솔루션은 RAG(검색 증강 생성) 패턴을 사용하여 회
 azd를 사용하여 AI 애플리케이션을 프로비전하고 배포하는 작업은 완료하는 데 10분 이상 걸릴 수 있습니다. 다음을 통해 진행률을 추적할 수 있습니다.
 
 - [Azure Portal](https://ms.portal.azure.com/)에서 자세한 진행률을 확인합니다. 환경 이름에 해당하는 리소스 그룹을 검색합니다. 사이드바에서 **배포** 옵션을 선택한 다음, 생성되는 리소스의 배포 상태를 모니터링합니다.
-- [Azure AI Studio](https://ai.azure.com) 포털을 방문합니다. Azure AD 계정을 사용하여 로그인합니다. 위의 리소스 그룹에 해당하는 AI 허브를 검색합니다(몇 번 새로 고쳐야 할 수도 있음). 나열된 AI 프로젝트를 선택한 다음, 사이드바에서 **배포**를 선택하여 모델 및 채팅 애플리케이션 배포의 상태를 추적합니다.
+- [Azure AI Foundry 포털](https://ai.azure.com) 포털을 방문합니다. Azure AD 계정을 사용하여 로그인합니다. 위의 리소스 그룹에 해당하는 AI 허브를 검색합니다(몇 번 새로 고쳐야 할 수도 있음). 나열된 AI 프로젝트를 선택한 다음, 사이드바에서 **배포**를 선택하여 모델 및 채팅 애플리케이션 배포의 상태를 추적합니다.
 
 Azure Portal을 사용하여 리소스 프로비전의 유효성을 검사하는 방법을 살펴보겠습니다.
 
@@ -92,13 +92,13 @@ Azure Portal을 사용하여 리소스 프로비전의 유효성을 검사하는
 
     ![Azure Portal 리소스 그룹 개요](./media/azure-portal-resource-group.png)
 
-1. 먼저 주요 [Azure AI 스튜디오 아키텍처](https://learn.microsoft.com/azure/ai-studio/concepts/architecture) 리소스가 생성되었는지 확인해 보겠습니다. 아래 그림에서는 이러한 각 리소스가 AI 애플리케이션에 제공하는 내용에 대한 자세한 내용을 제공합니다.
+1. 먼저 주요 [Azure AI Foundry 아키텍처](https://learn.microsoft.com/azure/ai-studio/concepts/architecture) 리소스가 생성되었는지 확인해 보겠습니다. 아래 그림에서는 이러한 각 리소스가 AI 애플리케이션에 제공하는 내용에 대한 자세한 내용을 제공합니다.
 
     - **Azure AI 허브**: 최상위 Azure 리소스입니다. 팀을 위한 공동 작업 환경을 제공합니다.
     - **Azure AI 프로젝트**: 허브의 자식입니다. 오케스트레이션, 사용자 지정을 위해 앱 구성 요소를 그룹화합니다.
     - **Azure AI 서비스**: 모델 엔드포인트를 관리합니다.
 
-    ![Azure AI Studio 아키텍처](./media/resource-provider-connected-resources.svg)
+    ![Azure AI Foundry 아키텍처](./media/resource-provider-connected-resources.svg)
 
 1. 다음으로, 쿼리 기반 검색을 위해 제품 및 고객 데이터를 저장하여 [검색 증강 생성](https://learn.microsoft.com/azure/ai-studio/concepts/retrieval-augmented-generation) 디자인 패턴을 구현하기 위한 두 가지 주요 리소스를 프로비전했는지 확인해 보겠습니다.
 
@@ -115,11 +115,11 @@ Azure Portal을 사용하여 리소스 프로비전의 유효성을 검사하는
 
 1. 마지막으로 **Machine Learning 온라인 배포** 유형이 있는 새 리소스를 확인할 수 있습니다. 이는 배포된 Azure AI 프로젝트 엔드포인트(채팅 Copilot용)에 해당하는 리소스입니다.
 
-## Azure AI 스튜디오를 사용하여 배포 유효성 검사
+## Azure AI Foundry를 사용한 배포 유효성 검사
 
-Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할 수 있습니다. Azure AI Studio 포털을 사용하면 모델 선택에서 애플리케이션 배포에 이르기까지 AI 프로젝트 자체를 엔드투엔드로 *빌드하고 관리*할 수 있습니다. `azd up` 명령은 필수 모델 프로비저닝부터 사용을 위한 Copilot API 엔드포인트 배포 및 호스팅까지 전체 프로세스를 완료해야 합니다. 애플리케이션이 예상대로 작동하는지 확인해 보겠습니다.
+Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할 수 있습니다. Azure AI Foundry 포털을 사용하면 모델 선택에서 애플리케이션 배포에 이르기까지 AI 프로젝트 자체를 엔드투엔드로 *빌드하고 관리*할 수 있습니다. `azd up` 명령은 필수 모델 프로비저닝부터 사용을 위한 Copilot API 엔드포인트 배포 및 호스팅까지 전체 프로세스를 완료해야 합니다. 애플리케이션이 예상대로 작동하는지 확인해 보겠습니다.
 
-1. 구독의 모든 Azure AI 허브를 보려면 [Azure AI 스튜디오](https://ai.azure.com/manage)의 **관리** 페이지를 방문하세요.
+1. 구독의 모든 Azure AI 허브를 보려면 [Azure AI Foundry 포털](https://ai.azure.com/manage)의 **관리** 페이지를 방문하세요.
 1. 리소스 그룹의 허브를 선택하여 리소스 그룹 내 모든 Azure AI 프로젝트를 봅니다.
 1. 허브에서 기본 AI 프로젝트를 선택한 다음 왼쪽 메뉴에서 **배포**를 선택합니다.
 1. **모델 배포**에서 다음 배포를 포함하여 Azure OpenAI 연결이 있는지 확인합니다.
@@ -131,13 +131,13 @@ Azure Portal을 사용하면 프로젝트의 기본 Azure 리소스를 관리할
 
     ![Azure AI 프로젝트 배포](./media/azure-ai-project-deployment.png)
 
-## Azure AI Studio를 사용하여(클라우드에서) 배포 테스트
+## Azure AIFoundry를 사용한 배포 테스트(클라우드)
 
-배포된 Copilot 작동의 유효성을 검사하려면 Azure AI 스튜디오에서 기본 제공 테스트 플레이그라운드 기능을 사용합니다.
+배포된 Copilot 작동의 유효성을 검사하려면 Azure AI Foundry 포털의 기본 제공 테스트 플레이그라운드 기능을 사용합니다.
 
 ![채팅 배포 세부 정보](./media/chat-deployment-details.png)
 
-1. Azure AI 스튜디오의 **앱 배포** 목록에서 **chat-deployment-xxxx** 배포를 선택합니다.
+1. Azure AI Foundry 포털의 **앱 배포** 목록에서 **chat-deployment-xxxx** 배포를 선택합니다.
 1. 배포된 채팅 애플리케이션의 **세부 정보** 페이지에서 **테스트** 탭을 선택하여 테스트 인터페이스를 가져옵니다.
 
     **세부 정보** 탭에는 실제 사용자 상호 작용을 위해 이 채팅 도우미를 통합하기 위해 다른 프런트 엔드 애플리케이션(예: Contoso Outdoor 웹 사이트)과 함께 사용할 수 있는 `Target URI` 및 `Key` 값도 있습니다.
