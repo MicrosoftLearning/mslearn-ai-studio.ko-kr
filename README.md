@@ -1,6 +1,6 @@
-# Azure AI 스튜디오 연습
+# Azure AI Foundry 연습
 
-이 리포지토리에는 [Azure AI Studio의 Microsoft Learn 모듈](https://docs.microsoft.com/training)에서 실습을 지원하기 위한 지침 및 이 포함되어 있습니다.
+이 리포지토리에는 [Azure AI Foundry 포털의 Microsoft Learn 모듈](https://learn.microsoft.com/en-us/training/paths/create-custom-copilots-ai-studio/)에서 실습을 지원하기 위한 지침 및 자산이 포함되어 있습니다.
 
 ## 문제 보고
 
