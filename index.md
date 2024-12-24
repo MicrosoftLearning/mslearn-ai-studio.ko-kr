@@ -4,7 +4,7 @@ permalink: index.html
 layout: home
 ---
 
-# Azure AI 스튜디오를 사용한 생성형 AI 애플리케이션 개발
+# Azure AI Foundry 포털에서 생성형 AI 앱 개발
 
 다음 연습은 개발자가 채팅 기반 "코파일럿"과 같은 생성형 AI 애플리케이션을 빌드하는 데 사용하는 일반적인 패턴과 기술을 살펴보고 Azure AI 서비스(특히 Azure OpenAI Service 및 Azure AI 스튜디오)를 사용하여 이 패턴을 구현하는 방법을 알아보는 실습 학습 환경을 제공하기 위해 설계되었습니다.
 
