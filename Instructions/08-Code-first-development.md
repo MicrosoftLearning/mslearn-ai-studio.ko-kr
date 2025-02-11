@@ -1,9 +1,10 @@
 ---
 lab:
-  title: 코드 우선 개발 도구를 사용하여 사용자 지정 Copilot 빌드
+  title: 코드 우선 개발 도구를 사용하여 생성형 AI 앱 빌드
+  description: 코드를 사용하여 DevOps 시나리오에서 자동화된 빌드 및 배포를 지원하기 위해 생성형 AI 앱의 요소를 만들고 업데이트하는 방법을 알아봅니다.
 ---
 
-# 코드 우선 개발 도구를 사용하여 사용자 지정 Copilot 빌드
+# 코드 우선 개발 도구를 사용하여 생성 AI 앱 빌드
 
 이 연습에서는 Azure AI Foundry의 [AI 프로젝트를 온라인 엔드포인트에 프로비전하고 배포](https://learn.microsoft.com/azure/developer/azure-developer-cli/azure-ai-ml-endpoints?WT.mc_id=academic-140829-cacaste)하는 Azure Developer CLI 템플릿을 복제하고 배포합니다. 그런 다음 이를 시작점으로 사용하여 Azure AI 및 코드 우선 환경을 통해 사용자 지정 Copilot을 빌드합니다.
 
