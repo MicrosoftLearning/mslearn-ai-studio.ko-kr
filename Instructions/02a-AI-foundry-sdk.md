@@ -24,11 +24,18 @@ lab:
     - **허브 이름**: *고유한 이름 - 예: `my-ai-hub`*
     - **구독**: ‘Azure 구독’
     - **리소스 그룹**: *고유한 이름(예: `my-ai-resources`)으로 새 리소스 그룹을 만들거나 기존 리소스 그룹 선택*
-    - **위치**: **선택 도움말**을 선택한 다음 위치 도우미 창에서 **gpt-4**를 선택하고 추천 지역을 사용합니다.\*
+    - **위치**: 다음 지역 중 하나를 임의로 선택합니다.\*
+        - 미국 동부
+        - 미국 동부 2
+        - 미국 중북부
+        - 미국 중남부
+        - 스웨덴 중부
+        - 미국 서부
+        - 미국 서부 3
     - **Azure AI Services 또는 Azure OpenAI** 연결: *적절한 이름으로 새 AI Services 리소스를 만들거나(예 `my-ai-services`:) 기존 리소스를 사용합니다.*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
-    > \* Azure OpenAI 리소스는 지역 할당량에 따라 테넌트 수준에서 제한됩니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
+    > \* 모델 할당량은 지역 할당량에 따라 테넌트 수준으로 제한됩니다. 임의 지역을 선택하면 여러 사용자가 동일한 테넌트에서 작업할 때 할당량 가용성을 분산할 수 있습니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
 
 1. **다음**을 선택하여 구성을 검토합니다. **만들기**를 선택하고 프로세스가 완료될 때까지 기다립니다.
 1. 프로젝트를 만들 때 표시되는 팁을 모두 닫고 Azure AI 파운드리 포털에서 프로젝트 페이지를 검토합니다. 이 페이지는 다음 이미지와 유사합니다.
@@ -37,7 +44,7 @@ lab:
 
 ## 생성형 AI 모델 배포
 
-이제 채팅 애플리케이션을 지원하기 위해 생성형 AI 언어 모델을 배포할 준비가 되었습니다. 이 예제에서는 Microsoft Phi-4 모델을 사용합니다. 그러나 원칙은 모든 모델에 대해 동일합니다.
+YNow는 채팅 애플리케이션을 지원하기 위해 생성 AI 언어 모델을 배포할 준비가 된 것입니다. 이 예제에서는 Microsoft Phi-4 모델을 사용합니다. 그러나 원칙은 모든 모델에 대해 동일합니다.
 
 1. Azure AI 파운드리 프로젝트 페이지의 오른쪽 위에 있는 도구 모음에서 **미리 보기 기능** 아이콘을 사용하여 **Azure AI 모델 유추 서비스 기능에 모델 배포**를 사용하도록 설정합니다. 이 기능을 사용하면 애플리케이션 코드에서 사용할 Azure AI 유추 서비스에서 모델 배포를 사용할 수 있습니다.
 1. 프로젝트 왼쪽 창의 **내 자산** 섹션에서 **모델 + 엔드포인트** 페이지를 선택합니다.
@@ -53,9 +60,7 @@ lab:
 
 이제 모델을 배포했으므로 Azure AI 파운드리 SDK를 사용하여 채팅하는 애플리케이션을 개발할 수 있습니다.
 
-> **팁**: Python 또는 Microsoft C#을 사용하여 솔루션을 개발하도록 선택할 수 있습니다. 선택한 언어의 해당 섹션에 있는 지침을 따릅니다.
-
-### 애플리케이션 리포지토리 복제
+### 애플리케이션 구성 준비
 
 1. Azure AI 파운드리 포털에서 프로젝트의 **개요** 페이지를 봅니다.
 1. **프로젝트 세부 정보** 영역에서 **프로젝트 연결 문자열**을 확인합니다. 이 연결 문자열 사용하여 클라이언트 응용 프로그램에서 프로젝트에 연결합니다.
@@ -66,8 +71,6 @@ lab:
 
 1. Cloud Shell 도구 모음의 **설정** 메뉴에서 **클래식 버전으로 이동**을 선택합니다(코드 편집기를 사용하는 데 필요).
 
-    > **팁**: CloudShell에 명령을 붙여넣을 때, 출력이 화면 버퍼의 많은 부분을 차지할 수 있습니다. `cls` 명령을 입력해 화면을 지우면 각 작업에 더 집중할 수 있습니다.
-
 1. PowerShell 창에서 다음 명령을 입력하여 이 연습이 포함된 GitHub 리포지토리를 복제합니다.
 
     ```
@@ -75,53 +78,26 @@ lab:
     git clone https://github.com/microsoftlearning/mslearn-ai-studio mslearn-ai-foundry
     ```
 
-### 애플리케이션 구성 준비
-
-> **참고**: 선택한 프로그래밍 언어에 대한 단계를 따릅니다.
-
-1. 리포지토리가 복제된 후 채팅 애플리케이션 코드 파일이 포함된 폴더로 이동합니다.  
-
-    **Python**
+1. 리포지토리가 복제된 후 채팅 애플리케이션 코드 파일이 포함된 폴더로 이동합니다.
 
     ```
-   cd mslearn-ai-foundry/labfiles/chat-app/python
+    cd mslearn-ai-foundry/labfiles/chat-app/python
     ```
 
-    **C#**
-
-    ```
-   cd mslearn-ai-foundry/labfiles/chat-app/c-sharp
-    ```
-
-1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 사용할 라이브러리를 설치합니다.
-
-    **Python**
+1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 사용할 Python 라이브러리를 설치합니다.
+    - **python-dotenv** : 애플리케이션 구성 파일에서 설정을 로드하는 데 사용됩니다.
+    - **azure-identity**: Entra ID 자격 증명으로 인증하는 데 사용됩니다.
+    - **azure-ai-projects**: Azure AI Foundry 프로젝트를 사용하는 데 사용됩니다.
+    - **azure-ai-inference**: 생성형 AI 모델과 채팅하는 데 사용됩니다.
 
     ```
    pip install python-dotenv azure-identity azure-ai-projects azure-ai-inference
     ```
 
-    **C#**
-
-    ```
-   dotnet add package Azure.AI.Inference
-   dotnet add package Azure.AI.Projects --prerelease
-   dotnet add package Azure.Identity
-    ```
-    
-
-1. 제공된 구성 파일을 편집하려면 다음 명령을 입력합니다.
-
-    **Python**
+1. 다음 명령을 입력하여 제공된 **.env** Python 구성 파일을 편집합니다.
 
     ```
    code .env
-    ```
-
-    **C#**
-
-    ```
-   code appsettings.json
     ```
 
     코드 편집기에서 파일이 열립니다.
@@ -131,75 +107,37 @@ lab:
 
 ### 프로젝트에 연결하고 모델과 채팅하는 코드를 작성합니다.
 
-> **팁**: 코드를 추가할 때 올바른 들여쓰기를 유지해야 합니다.
+> **팁**: Python 코드 파일에 코드를 추가할 때 올바른 들여쓰기를 유지해야 합니다.
 
-1. 제공된 코드 파일을 편집하려면 다음 명령을 입력합니다.
-
-    **Python**
+1. 다음 명령을 입력하여 제공된 **chat-app.py** Python 코드 파일을 편집합니다.
 
     ```
    code chat-app.py
     ```
 
-    **C#**
+1. 코드 파일에서 파일 맨 위에 추가된 기존 **import** 문을 기록해 둡니다. 그런 다음 **# AI 프로젝트 참조 추가** 주석 아래에 다음 코드를 추가하여 Azure AI 프로젝트 라이브러리를 참조합니다.
 
-    ```
-   code Program.cs
-    ```
-
-1. 코드 파일에서 파일 상단에 추가된 기존 문에 주목하여 필요한 SDK 네임스페이스를 가져옵니다. 그런 다음 **참조 추가** 주석 아래에 다음 코드를 추가하여 이전에 설치한 라이브러리의 네임스페이스를 참조합니다.
-
-    **Python**
-
-    ```
-   from dotenv import load_dotenv
-   from azure.identity import DefaultAzureCredential
+    ```python
    from azure.ai.projects import AIProjectClient
     ```
 
-    **C#**
+1. **기본** 함수의 **# 구성 설정 가져오기** 주석 아래에서 코드가 **.env** 파일에 정의한 프로젝트 연결 문자열과 모델 배포 이름 값을 로드한다는 점에 유의하세요.
+1. **# 프로젝트 클라이언트 초기화** 주석 아래에 현재 로그인한 Azure 자격 증명을 사용하여 Azure AI 파운드리 프로젝트에 연결하려면 다음 코드를 추가합니다.
 
-    ```
-   using Azure.Identity;
-   using Azure.AI.Projects;
-   using Azure.AI.Inference;
-    ```
-
-1. **main** 함수의 **구성 설정 가져오기** 주석 아래에서 해당 코드가 구성 파일에서 정의한 프로젝트 연결 문자열 및 모델 배포 이름 값을 로드한다는 점에 유의합니다.
-1. **프로젝트 클라이언트 초기화** 주석 아래에 다음 코드를 추가하여 현재 로그인한 Azure 자격 증명을 사용하여 Azure AI 파운드리 프로젝트에 연결합니다.
-
-    **Python**
-
-    ```
-   projectClient = AIProjectClient.from_connection_string(
+    ```python
+   project = AIProjectClient.from_connection_string(
         conn_str=project_connection,
-        credential=DefaultAzureCredential())
+        credential=DefaultAzureCredential()
+        )
+    ```
+    
+1. 주석 **# 채팅 클라이언트 가져오기**에서 다음 코드를 추가하여 모델과 채팅하기 위한 클라이언트 개체를 만듭니다.
+
+    ```python
+   chat = project.inference.get_chat_completions_client()
     ```
 
-    **C#**
-
-    ```
-   var projectClient = new AIProjectClient(project_connection,
-                        new DefaultAzureCredential());
-    ```
-
-1. **채팅 클라이언트 가져오기** 주석 아래에 다음 코드를 추가하여 모델과 채팅할 클라이언트 개체를 만듭니다.
-
-    **Python**
-
-    ```
-   chat = projectClient.inference.get_chat_completions_client()
-    ```
-
-    **C#**
-
-    ```
-   ChatCompletionsClient chat = projectClient.GetChatCompletionsClient();
-    ```
-
-1. 코드에는 사용자가 "종료"를 입력할 때까지 프롬프트를 입력할 수 있도록 하는 루프가 포함되어 있습니다. 그런 다음 루프 섹션의 **채팅 완료 가져오기** 주석 아래에 다음 코드를 추가하여 프롬프트를 제출하고 모델에서 완료를 검색합니다.
-
-    **Python**
+1. 코드에는 사용자가 "종료"를 입력할 때까지 프롬프트를 입력할 수 있도록 하는 루프가 포함되어 있습니다. 그런 다음 루프 섹션의 주석 **# 채팅 완료 가져오기** 아래에서 다음 코드를 추가하여 프롬프트를 제출하고 모델에서 완료를 가져옵니다.
 
     ```python
    response = chat.complete(
@@ -212,39 +150,14 @@ lab:
    print(response.choices[0].message.content)
     ```
 
-    **C#**
-
-    ```
-   var requestOptions = new ChatCompletionsOptions()
-   {
-       Model = model_deployment,
-       Messages =
-           {
-               new ChatRequestSystemMessage("You are a helpful AI assistant that answers questions."),
-               new ChatRequestUserMessage(input_text),
-           }
-   };
-    
-   Response<ChatCompletions> response = chat.Complete(requestOptions);
-   Console.WriteLine(response.Value.Content);
-    ```
-
 1. **Ctrl+S** 명령을 사용하여 변경 내용을 코드 파일에 저장한 다음 **Ctrl+Q** 명령을 사용하여 Cloud Shell 명령줄을 열어 둔 채 코드 편집기를 닫습니다.
 
 ### 채팅 애플리케이션 실행
 
-1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 앱을 실행합니다.
-
-    **Python**
+1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 Python 코드를 실행합니다.
 
     ```
    python chat-app.py
-    ```
-
-    **C#**
-
-    ```
-   dotnet run
     ```
 
 1. 메시지가 표시되면 `What is the fastest animal on Earth?`과 같은 질문을 입력하고 생성형 AI 모델의 응답을 검토합니다.
