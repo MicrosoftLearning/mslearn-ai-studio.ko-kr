@@ -1,5 +1,5 @@
 ---
-title: Azure OpenAI 연습
+title: 생성형 AI 솔루션 개발
 permalink: index.html
 layout: home
 ---
