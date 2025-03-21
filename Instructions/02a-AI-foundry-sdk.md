@@ -24,11 +24,18 @@ lab:
     - **허브 이름**: *고유한 이름 - 예: `my-ai-hub`*
     - **구독**: ‘Azure 구독’
     - **리소스 그룹**: *고유한 이름(예: `my-ai-resources`)으로 새 리소스 그룹을 만들거나 기존 리소스 그룹 선택*
-    - **위치**: **선택 도움말**을 선택한 다음 위치 도우미 창에서 **gpt-4**를 선택하고 추천 지역을 사용합니다.\*
+    - **위치**: 다음 지역 중 하나를 선택합니다.\*
+        - 미국 동부
+        - 미국 동부 2
+        - 미국 중북부
+        - 미국 중남부
+        - 스웨덴 중부
+        - 미국 서부
+        - 미국 서부 3
     - **Azure AI Services 또는 Azure OpenAI** 연결: *적절한 이름으로 새 AI Services 리소스를 만들거나(예 `my-ai-services`:) 기존 리소스를 사용합니다.*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
-    > \* Azure OpenAI 리소스는 지역 할당량에 따라 테넌트 수준에서 제한됩니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
+    > \* 작성 시점에는 이 연습에서 사용할 Microsoft *Phi-4* 모델을 이 지역에서 사용할 수 있습니다. [Azure AI 파운드리 설명서](https://learn.microsoft.com/azure/ai-foundry/how-to/deploy-models-serverless-availability#region-availability)에서 특정 모델에 대한 최신 지역 가용성을 확인할 수 있습니다. 연습 후반부에 지역 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
 
 1. **다음**을 선택하여 구성을 검토합니다. **만들기**를 선택하고 프로세스가 완료될 때까지 기다립니다.
 1. 프로젝트를 만들 때 표시되는 팁을 모두 닫고 Azure AI 파운드리 포털에서 프로젝트 페이지를 검토합니다. 이 페이지는 다음 이미지와 유사합니다.
@@ -102,9 +109,9 @@ lab:
     **C#**
 
     ```
-   dotnet add package Azure.AI.Inference --version 1.0.0-beta.3
-   dotnet add package Azure.AI.Projects --version 1.0.0-beta.3
    dotnet add package Azure.Identity
+   dotnet add package Azure.AI.Projects --version 1.0.0-beta.3
+   dotnet add package Azure.AI.Inference --version 1.0.0-beta.3
     ```
     
 
@@ -153,6 +160,7 @@ lab:
    from dotenv import load_dotenv
    from azure.identity import DefaultAzureCredential
    from azure.ai.projects import AIProjectClient
+   from azure.ai.inference.models import SystemMessage, UserMessage
     ```
 
     **C#**
@@ -201,14 +209,13 @@ lab:
 
     ```python
    response = chat.complete(
-        model=model_deployment,
-        messages=[
-            {"role": "system", "content": "You are a helpful AI assistant that answers questions."},
-            {"role": "user", "content": input_text},
-            ],
-        )
-   print(response.choices[0].message.content)
-    ```
+       model=model_deployment,
+       messages=[
+           SystemMessage("You are a helpful AI assistant that answers questions."),
+           UserMessage(input_text)
+       ])
+   print(response.choices[0].message.content
+```
 
     **C#**
 
