@@ -4,13 +4,13 @@ permalink: index.html
 layout: home
 ---
 
-# 생성형 AI 솔루션 개발
+# Azure에서 생성형 AI 솔루션 개발
 
-다음 빠른 시작 연습은 개발자가 Microsoft Azure에서 생성 AI 솔루션을 빌드할 때 수행하는 일반적인 작업을 탐색하는 실습 학습 환경을 제공하도록 설계되었습니다.
+다음 연습은 Microsoft Azure에서 생성형 AI 솔루션을 빌드할 때 개발자가 수행하는 일반적인 작업을 탐색하는 실습 학습 환경을 제공하도록 설계되었습니다.
 
 > **참고**: 연습을 완료하려면 필요한 Azure 리소스와 생성형 AI 모델을 프로비전할 수 있는 충분한 권한과 할당량이 있는 Azure 구독이 필요합니다. 아직 계정이 없는 경우 [Azure 계정](https://azure.microsoft.com/free)에 가입합니다. 첫 30일 동안 사용할 수 있는 신규 사용자용 무료 평가판 옵션이 있으며, 크레딧도 제공합니다.
 
-## 빠른 시작 연습
+## 연습
 
 {% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions'" %} {% for activity in labs  %}
 <hr>
