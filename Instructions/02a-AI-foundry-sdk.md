@@ -21,7 +21,7 @@ lab:
     ![Azure AI Foundry 포털의 스크린샷.](./media/ai-foundry-home.png)
 
 1. 홈페이지에서 **+ 프로젝트 만들기**를 선택합니다.
-1. **프로젝트 만들기** 마법사에서 적절한 프로젝트 이름(예`my-ai-project`: )을 입력한 다음, 프로젝트를 지원하기 위해 자동으로 만들어지는 Azure 리소스를 검토합니다.
+1. **프로젝트 만들기** 마법사에서 적절한 프로젝트 이름(예: `my-ai-project`)을 입력하고 기존 허브가 추천되면 새 허브를 만드는 옵션을 선택합니다. 그런 다음 허브 및 프로젝트를 지원하기 위해 자동으로 만들어지는 Azure 리소스를 검토합니다.
 1. **사용자 지정**을 선택하고 허브에 대해 다음 설정을 지정합니다.
     - **허브 이름**: *고유한 이름 - 예: `my-ai-hub`*
     - **구독**: ‘Azure 구독’
@@ -30,7 +30,7 @@ lab:
     - **Azure AI Services 또는 Azure OpenAI** 연결: *적절한 이름으로 새 AI Services 리소스를 만들거나(예 `my-ai-services`:) 기존 리소스를 사용합니다.*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
-    > \* 연습 후반부에 지역 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
+    > \* 모델 할당량은 지역 할당량에 따라 테넌트 수준으로 제한됩니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
 
 1. **다음**을 선택하여 구성을 검토합니다. **만들기**를 선택하고 프로세스가 완료될 때까지 기다립니다.
 1. 프로젝트를 만들 때 표시되는 팁을 모두 닫고 Azure AI 파운드리 포털에서 프로젝트 페이지를 검토합니다. 이 페이지는 다음 이미지와 유사합니다.
@@ -46,17 +46,17 @@ lab:
 1. **모델 + 엔드포인트** 페이지의 **모델 배포** 탭의 **+ 모델 배포** 메뉴에서 **기본 모델 배포**를 선택합니다.
 1. 목록에서 **gpt-4** 모델을 검색하고 선택한 후 확인합니다.
 1. 배포 세부 정보에서 **사용자 지정**을 선택하여 다음 설정으로 모델을 배포합니다.
-    - **배포 이름**: *모델 배포에 대한 고유한 이름(예: `gpt-4`*)
-    - **배포 유형**: 글로벌 표준
-    - **모델 버전**: *기본 버전 선택*
-    - **연결된 AI 리소스**: *Azure OpenAI 리소스 연결*
-    - **분당 토큰 속도 제한(천 개)**: 5K(*그 이하인 경우 사용 가능한 최대치*)
+    - **배포 이름**: *모델 배포의 고유 이름(예: `gpt-4`)(선택한 이름을 기억하세요. 나중에 필요합니다.)*
+    - **배포 유형**: 표준
+    - **모델 버전**: 0613
+    - **연결된 AI 리소스**: *Azure OpenAI 리소스 연결 선택*
+    - **분당 토큰 속도 제한(천 )**: 5K
     - **콘텐츠 필터**: DefaultV2
     - **동적 할당량 사용**: 사용할 수 없음
 
     > **참고**: TPM을 줄이면 사용 중인 구독에서 사용 가능한 할당량을 과도하게 사용하지 않을 수 있습니다. 이 연습에 사용된 데이터는 5,000TPM이면 충분합니다.
 
-1. 배포 프로비전 상태가 **완료**될 때까지 기다립니다.
+1. 배포가 완료될 때가지 기다립니다.
 
 ## 모델과 채팅할 클라이언트 응용 프로그램 만들기
 
@@ -69,7 +69,12 @@ lab:
 1. Azure AI 파운드리 포털에서 프로젝트의 **개요** 페이지를 봅니다.
 1. **프로젝트 세부 정보** 영역에서 **프로젝트 연결 문자열**을 확인합니다. 이 연결 문자열 사용하여 클라이언트 응용 프로그램에서 프로젝트에 연결합니다.
 1. 새 브라우저 탭을 엽니다(Azure AI 파운드리 포털을 기존 탭에서 열어 두기). 그런 다음 새 탭에서 [Azure Portal](https://portal.azure.com)(`https://portal.azure.com`)을 열고 메시지가 나타나면 Azure 자격 증명을 사용하여 로그인합니다.
-1. 페이지 상단의 검색 창 오른쪽에 있는 **[\>_]** 단추를 사용하여 Azure Portal에서 새 Cloud Shell을 만들고 ***PowerShell*** 환경을 선택합니다. Cloud Shell은 다음과 같이 Azure Portal 아래쪽 창에 명령줄 인터페이스를 제공합니다.
+
+    Azure Portal 홈페이지를 보려면 환영 알림을 닫습니다.
+
+1. 페이지 상단의 검색 창 오른쪽에 있는 **[\>_]** 단추를 사용하여 Azure Portal에서 새 Cloud Shell을 만들고 구독에 저장소가 없는 ***PowerShell*** 환경을 선택합니다.
+
+    Cloud Shell은 다음과 같이 Azure Portal 아래쪽 창에 명령줄 인터페이스를 제공합니다. 보다 쉽게 작업할 수 있도록 이 창의 크기를 조정하거나 최대화할 수 있습니다.
 
     > **참고**: 이전에 *Bash* 환경을 사용하는 Cloud Shell을 만든 경우 ***PowerShell***로 전환합니다.
 
@@ -77,14 +82,14 @@ lab:
 
     **<font color="red">계속하기 전에 Cloud Shell의 클래식 버전으로 전환했는지 확인합니다.</font>**
 
-1. PowerShell 창에서 다음 명령을 입력하여 이 연습이 포함된 GitHub 리포지토리를 복제합니다.
+1. PowerShell 창에서 다음 명령을 입력하여 이 연습의 코드 파일이 포함된 GitHub 리포지토리를 복제합니다.
 
     ```
     rm -r mslearn-ai-foundry -f
     git clone https://github.com/microsoftlearning/mslearn-ai-studio mslearn-ai-foundry
     ```
 
-    > **팁**: CloudShell에 명령을 붙여넣을 때, 출력이 화면 버퍼의 많은 부분을 차지할 수 있습니다. `cls` 명령을 입력해 화면을 지우면 각 작업에 더 집중할 수 있습니다.
+    > **팁**: CloudShell에 명령을 붙여넣으면 출력이 화면 버퍼의 많은 부분을 차지할 수 있습니다. `cls` 명령을 입력해 화면을 지우면 각 작업에 더 집중할 수 있습니다.
 
 1. 리포지토리가 복제된 후 채팅 애플리케이션 코드 파일이 포함된 폴더로 이동합니다.
 
@@ -135,7 +140,7 @@ lab:
 
     코드 편집기에서 파일이 열립니다.
 
-1. 코드 파일에서 **your_project_endpoint** 자리 표시자를 프로젝트의 연결 문자열(Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에서 복사함)로 바꾸고, **your_model_deployment** 자리 표시자를 GPT-4 모델 배포에 할당한 이름으로 바꿉니다.
+1. 코드 파일에서 **your_project_connection_string** 자리 표시자를 프로젝트의 연결 문자열(Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에서 복사함)로 바꾸고, **your_model_deployment** 자리 표시자를 GPT-4 모델 배포에 할당한 이름으로 바꿉니다.
 1. 자리 표시자를 바꾼 후 코드 편집기에서 **CTRL+S** 명령 또는 **마우스 오른쪽 단추 클릭 > 저장**을 사용하여 변경 내용을 저장한 다음 **CTRL+Q** 명령 또는 **마우스 오른쪽 단추 클릭 > 종료**를 사용하여 Cloud Shell 명령줄을 열어둔 채 코드 편집기를 닫습니다.
 
 ### 프로젝트에 연결하고 모델과 채팅하는 코드를 작성합니다.
@@ -161,6 +166,7 @@ lab:
     **Python**
 
     ```python
+   # Add references
    from dotenv import load_dotenv
    from azure.identity import DefaultAzureCredential
    from azure.ai.projects import AIProjectClient
@@ -170,6 +176,7 @@ lab:
     **C#**
 
     ```csharp
+   // Add references
    using Azure.Identity;
    using Azure.AI.Projects;
    using Azure.AI.Inference;
@@ -183,6 +190,7 @@ lab:
     **Python**
 
     ```python
+   # Initialize the project client
    projectClient = AIProjectClient.from_connection_string(
         conn_str=project_connection,
         credential=DefaultAzureCredential())
@@ -191,6 +199,7 @@ lab:
     **C#**
 
     ```csharp
+   // Initialize the project client
    var projectClient = new AIProjectClient(project_connection,
                         new DefaultAzureCredential());
     ```
@@ -200,12 +209,14 @@ lab:
     **Python**
 
     ```python
+   # Get a chat client
    chat = projectClient.inference.get_chat_completions_client()
     ```
 
     **C#**
 
     ```csharp
+   // Get a chat client
    ChatCompletionsClient chat = projectClient.GetChatCompletionsClient();
     ```
 
@@ -216,6 +227,7 @@ lab:
     **Python**
 
     ```python
+   # Initialize prompt with system message
    prompt=[
             SystemMessage("You are a helpful AI assistant that answers questions.")
         ]
@@ -224,7 +236,8 @@ lab:
     **C#**
 
     ```csharp
-    var prompt = new List<ChatRequestMessage>(){
+   // Initialize prompt with system message
+   var prompt = new List<ChatRequestMessage>(){
                     new ChatRequestSystemMessage("You are a helpful AI assistant that answers questions.")
                 };
     ```
@@ -234,10 +247,11 @@ lab:
     **Python**
 
     ```python
+   # Get a chat completion
    prompt.append(UserMessage(input_text))
    response = chat.complete(
-       model=model_deployment,
-       messages=prompt)
+        model=model_deployment,
+        messages=prompt)
    completion = response.choices[0].message.content
    print(completion)
    prompt.append(AssistantMessage(completion))
@@ -246,6 +260,7 @@ lab:
     **C#**
 
     ```csharp
+   // Get a chat completion
    prompt.Add(new ChatRequestUserMessage(input_text));
    var requestOptions = new ChatCompletionsOptions()
    {
@@ -298,7 +313,7 @@ OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 �
     **C#**
 
     ```
-   dotnet add package Azure.AI.Projects --version 1.0.0-beta.5
+   dotnet add package Azure.AI.Projects --version 1.0.0-beta.6
    dotnet add package Azure.AI.OpenAI --prerelease
     ```
 
@@ -338,12 +353,14 @@ OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 �
     **Python**
 
     ```python
+   # Get a chat client 
    openai_client = projectClient.inference.get_azure_openai_client(api_version="2024-10-21")
     ```
 
     **C#**
 
     ```csharp
+   // Get a chat client
    ChatClient openaiClient = projectClient.GetAzureOpenAIChatClient(model_deployment);
     ```
 
@@ -354,17 +371,19 @@ OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 �
     **Python**
 
     ```python
+   # Initialize prompt with system message
    prompt=[
-       {"role": "system", "content": "You are a helpful AI assistant that answers questions."}
-   ]
+        {"role": "system", "content": "You are a helpful AI assistant that answers questions."}
+    ]
     ```
 
     **C#**
 
     ```csharp
+   // Initialize prompt with system message
     var prompt = new List<ChatMessage>(){
-       new SystemChatMessage("You are a helpful AI assistant that answers questions.")
-   };
+        new SystemChatMessage("You are a helpful AI assistant that answers questions.")
+    };
     ```
 
 1. **채팅 완료 가져오기** 주석을 찾아 사용자 입력을 프롬프트에 추가하도록 코드를 수정하고, 모델에서 완료를 검색한 다음 다음과 같이 프롬프트에 완료를 추가합니다.
@@ -372,10 +391,11 @@ OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 �
     **Python**
 
     ```python
+   # Get a chat completion
    prompt.append({"role": "user", "content": input_text})
    response = openai_client.chat.completions.create(
-       model=model_deployment,
-       messages=prompt)
+        model=model_deployment,
+        messages=prompt)
    completion = response.choices[0].message.content
    print(completion)
    prompt.append({"role": "assistant", "content": completion})
@@ -384,6 +404,7 @@ OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 �
     **C#**
 
     ```csharp
+   // Get a chat completion
    prompt.Add(new UserChatMessage(input_text));
    ChatCompletion completion = openaiClient.CompleteChat(prompt);
    var completionText = completion.Content[0].Text;
