@@ -10,7 +10,7 @@ lab:
 
 이 연습에는 약 **30**분이 소요됩니다.
 
-> **참고**: 이 연습은 변경될 수 있는 시험판 SDK를 기반으로 합니다. 필요한 경우 특정 버전의 패키지를 사용했으며, 이는 최신 버전이 반영되지 않을 수 있습니다. 예기치 않은 동작, 경고 또는 오류가 발생할 수 있습니다.
+> **참고**: 이 연습은 변경될 수 있는 시험판 SDK를 기반으로 합니다. 필요한 경우 특정 버전의 패키지를 사용했으며, 이는 최신 버전이 반영되지 않을 수 있습니다.
 
 ## Azure AI 파운드리 프로젝트 만들기
 
@@ -34,7 +34,7 @@ lab:
         - 스웨덴 중부
         - 미국 서부
         - 미국 서부 3
-    - **Azure AI 서비스 또는 Azure OpenAI 연결**: *새 AI 서비스 리소스 만들기*
+    - **Azure AI 서비스 또는 Azure OpenAI** 연결: *새 AI 서비스 리소스 만들기*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
     > \* 작성 시점에 이 연습에서 사용할 Microsoft *Phi-4-multimodal-instruct* 모델은 이 지역에서 사용할 수 있습니다. [Azure AI 파운드리 설명서](https://learn.microsoft.com/azure/ai-foundry/how-to/deploy-models-serverless-availability#region-availability)에서 특정 모델에 대한 최신 지역 가용성을 확인할 수 있습니다. 연습 후반부에 지역 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
@@ -53,7 +53,7 @@ lab:
 3. **모델 + 엔드포인트** 페이지의 **모델 배포** 탭의 **+ 모델 배포** 메뉴에서 **기본 모델 배포**를 선택합니다.
 4. 목록에서 **Phi-4-multimodal-instruct** 모델을 검색한 다음 선택하고 확인합니다.
 5. 메시지가 표시되면 사용권 계약에 동의한 다음 배포 세부 정보에서 **사용자 지정**을 선택하여 다음 설정을 사용하여 모델을 배포합니다.
-    - **배포 이름**: *모델 배포에 대한 유효한 이름*
+    - **배포 이름**: *모델 배포에 대한 고유한 이름*
     - **배포 유형**: 글로벌 표준
     - **배포 세부 정보**: *기본 설정 사용*
 6. 배포 프로비전 상태가 **완료**될 때까지 기다립니다.
@@ -82,7 +82,7 @@ lab:
 
     **<font color="red">계속하기 전에 Cloud Shell의 클래식 버전으로 전환했는지 확인합니다.</font>**
 
-1. Cloud Shell 창에서 다음 명령을 입력하여 이 연습의 코드 파일이 포함된 GitHub 리포지토리를 복제합니다(명령을 입력하거나 클립보드에 복사한 다음 명령줄을 마우스 오른쪽 단추로 클릭하고 일반 텍스트로 붙여넣습니다).
+1. Cloud Shell 창에서 다음 명령을 입력하여 이 연습의 코드 파일이 포함된 GitHub 리포지토리를 복제합니다(명령을 입력하거나 클립보드에 복사한 다음 명령줄을 마우스 오른쪽 단추로 클릭하고 일반 텍스트로 붙여넣기).
 
     ```
     rm -r mslearn-ai-foundry -f
@@ -140,7 +140,7 @@ lab:
     코드 편집기에서 파일이 열립니다.
 
 10. 코드 파일에서 **your_project_connection_string** 자리 표시자를 프로젝트의 연결 문자열(Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에서 복사)로 바꾸고, **your_model_deployment** 자리 표시자를 Phi-4-multimodal-instruct 모델 배포에 할당한 이름으로 바꿉니다.
-11. 자리 표시자를 바꾼 후 코드 편집기에서 **CTRL+S** 명령 또는 **마우스 오른쪽 단추 클릭 > 저장**을 사용하여 변경 내용을 저장한 다음 **CTRL+Q** 명령 또는 **마우스 오른쪽 단추 클릭 > 끝내기**를 사용하여 Cloud Shell 명령줄을 열어둔 채 코드 편집기를 닫습니다.
+11. 자리 표시자를 바꾼 후 코드 편집기에서 **CTRL+S** 명령 또는 **마우스 오른쪽 단추 클릭 > 저장**을 사용하여 변경 내용을 저장한 다음 **CTRL+Q** 명령 또는 **마우스 오른쪽 단추 클릭 > 종료**를 사용하여 Cloud Shell 명령줄을 열어둔 채 코드 편집기를 닫습니다.
 
 ### 프로젝트에 연결하고 모델에 대한 채팅 클라이언트를 가져오는 코드를 작성합니다.
 
@@ -164,8 +164,7 @@ lab:
 
     **Python**
 
-    ```python
-   # Add references
+    ```
    from dotenv import load_dotenv
    from azure.identity import DefaultAzureCredential
    from azure.ai.projects import AIProjectClient
@@ -183,8 +182,7 @@ lab:
 
     **C#**
 
-    ```csharp
-   // Add references
+    ```
    using Azure.Identity;
    using Azure.AI.Projects;
    using Azure.AI.Inference;
@@ -195,8 +193,7 @@ lab:
 
     **Python**
 
-    ```python
-   # Get configuration settings
+    ```
    project_client = AIProjectClient.from_connection_string(
         conn_str=project_connection,
         credential=DefaultAzureCredential())
@@ -204,8 +201,7 @@ lab:
 
     **C#**
 
-    ```csharp
-   // Get configuration settings
+    ```
    var projectClient = new AIProjectClient(project_connection,
                         new DefaultAzureCredential());
     ```
@@ -214,15 +210,13 @@ lab:
 
     **Python**
 
-    ```python
-   # Get a chat client
+    ```
    chat_client = project_client.inference.get_chat_completions_client(model=model_deployment)
     ```
 
     **C#**
 
-    ```csharp
-   // Get a chat client
+    ```
    ChatCompletionsClient chat = projectClient.GetChatCompletionsClient();
     ```
 
@@ -234,7 +228,6 @@ lab:
     **Python**
 
     ```python
-   # Get a response to text input
    response = chat_client.complete(
        messages=[
            SystemMessage(system_message),
@@ -245,8 +238,7 @@ lab:
 
     **C#**
 
-    ```csharp
-   // Get a response to text input
+    ```
    var requestOptions = new ChatCompletionsOptions()
    {
    Model = model_deployment,
@@ -289,7 +281,6 @@ lab:
     **Python**
 
     ```python
-   # Get a response to image input
    image_url = "https://github.com/microsoftlearning/mslearn-ai-studio/raw/refs/heads/main/labfiles/multimodal/orange.jpg"
    image_format = "jpeg"
    request = Request(image_url, headers={"User-Agent": "Mozilla/5.0"})
@@ -311,8 +302,7 @@ lab:
     **C#**
 
     ```csharp
-  // Get a response to image input
-   string imageUrl = "https://github.com/microsoftlearning/mslearn-ai-studio/raw/refs/heads/main/labfiles/multimodal/orange.jpg";
+  string imageUrl = "https://github.com/microsoftlearning/mslearn-ai-studio/raw/refs/heads/main/labfiles/multimodal/orange.jpg";
    ChatCompletionsOptions requestOptions = new ChatCompletionsOptions()
    {
        Messages = {
@@ -356,7 +346,6 @@ lab:
     **Python**
 
     ```python
-   # Get a response to audio input
    file_path="https://github.com/microsoftlearning/mslearn-ai-studio/raw/refs/heads/main/labfiles/multimodal/manzanas.mp3"
    response = chat_client.complete(
            messages=[
@@ -378,7 +367,6 @@ lab:
     **C#**
 
     ```csharp
-   // Get a response to audio input
    string audioUrl="https://github.com/microsoftlearning/mslearn-ai-studio/raw/refs/heads/main/labfiles/multimodal/manzanas.mp3";
    var requestOptions = new ChatCompletionsOptions()
    {
@@ -394,6 +382,7 @@ lab:
    var response = chat.Complete(requestOptions);
    Console.WriteLine(response.Value.Content);
     ```
+
 
 2. **CTRL+S** 명령을 사용하여 변경 내용을 코드 파일에 저장합니다. 원하는 경우 코드 편집기를 닫을 수도 있습니다(**CTRL+Q**).
 
