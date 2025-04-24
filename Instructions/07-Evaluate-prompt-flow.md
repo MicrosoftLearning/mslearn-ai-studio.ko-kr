@@ -1,99 +1,85 @@
 ---
 lab:
-  title: 생성형 AI 성능 평가
+  title: 생성형 AI 모델 성능 평가
   description: 모델 및 채팅 흐름을 평가하여 채팅 앱의 성능과 적절하게 응답하는 기능을 최적화하는 방법을 알아봅니다.
 ---
 
-# 생성형 AI 성능 평가
+# 생성형 AI 모델 성능 평가
 
-이 연습에서는 Azure AI Foundry 포털을 통해 AI 애플리케이션의 성능을 평가하고 비교하기 위한 기본 제공 및 사용자 지정 평가를 탐색합니다.
+이 연습에서는 Azure AI 파운드리 포털에서 수동 및 자동화된 평가를 사용하여 모델의 성능을 평가합니다.
 
 이 연습은 약 **30**분 정도 소요됩니다.
 
-## Azure AI 허브 및 프로젝트 만들기
+## Azure AI 파운드리 프로젝트 만들기
 
-Azure AI 허브는 하나 이상의 *프로젝트*를 정의할 수 있는 공동 작업 영역을 제공합니다. 프로젝트와 Azure AI 허브를 만들어 보겠습니다.
+먼저 Azure AI 파운드리 프로젝트를 만들어 보겠습니다.
 
-1. 웹 브라우저에서 [Azure AI Foundry 포털](https://ai.azure.com)(`https://ai.azure.com`)을 열고 Azure 자격 증명을 사용하여 로그인합니다.
+1. 웹 브라우저에서 [Azure AI 파운드리 포털](https://ai.azure.com)(`https://ai.azure.com`)을 열고 Azure 자격 증명을 사용하여 로그인합니다. 처음 로그인할 때 열리는 팁이나 빠른 시작 창을 닫고 필요한 경우 왼쪽 위에 있는 **Azure AI 파운드리** 로고를 사용하여 다음 이미지(열려 있는 경우 **도움말** 창을 닫습니다)와 유사한 홈페이지로 이동합니다.
+
+    ![Azure AI Foundry 포털의 스크린샷.](./media/ai-foundry-home.png)
 
 1. 홈페이지에서 **+ 프로젝트 만들기**를 선택합니다.
-1. **프로젝트 만들기** 마법사에서 적절한 프로젝트 이름(예`my-ai-project`: )을 입력한 다음, 프로젝트를 지원하기 위해 자동으로 만들어지는 Azure 리소스를 검토합니다.
+1. **프로젝트 만들기** 마법사에서 유효한 프로젝트 이름을 입력하고 기존 허브가 추천되면 새 허브를 만드는 옵션을 선택합니다. 그런 다음 허브 및 프로젝트를 지원하기 위해 자동으로 만들어지는 Azure 리소스를 검토합니다.
 1. **사용자 지정**을 선택하고 허브에 대해 다음 설정을 지정합니다.
-    - **허브 이름**: *고유한 이름 - 예: `my-ai-hub`*
+    - **허브 이름**: *허브에서 유효한 이름*
     - **구독**: ‘Azure 구독’
-    - **리소스 그룹**: *고유한 이름(예: `my-ai-resources`)으로 새 리소스 그룹을 만들거나 기존 리소스 그룹 선택*
-    - **위치**: **선택 도움말**을 선택한 다음 위치 도우미 창에서 **gpt-4**를 선택하고 추천 지역을 사용합니다.\*
-    - **Azure AI Services 또는 Azure OpenAI** 연결: *적절한 이름으로 새 AI Services 리소스를 만들거나(예 `my-ai-services`:) 기존 리소스를 사용합니다.*
+    - **리소스 그룹**: ‘리소스 그룹 만들기 또는 선택’
+    - **위치**: 다음 지역 중 하나를 선택합니다\*
+        - 미국 동부 2
+        - 프랑스 중부
+        - 영국 남부
+        - 스웨덴 중부
+    - **Azure AI 서비스 또는 Azure OpenAI** 연결: *새 AI 서비스 리소스 만들기*
     - **Azure AI 검색 연결**: 연결 건너뛰기
 
-    > \* 모델 할당량은 지역 할당량에 따라 테넌트 수준으로 제한됩니다. 연습 후반부에 할당량 한도에 도달하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
+    > \* 작성 시 이러한 지역은 AI 안전 메트릭의 평가를 지원합니다.
 
 1. **다음**을 선택하여 구성을 검토합니다. **만들기**를 선택하고 프로세스가 완료될 때까지 기다립니다.
 1. 프로젝트를 만들 때 표시되는 팁을 모두 닫고 Azure AI 파운드리 포털에서 프로젝트 페이지를 검토합니다. 이 페이지는 다음 이미지와 유사합니다.
 
     ![Azure AI 파운드리 포털의 Azure AI 프로젝트 세부 정보 스크린샷.](./media/ai-foundry-project.png)
 
-## GPT 모델 배포
+## 모델 배포
 
-프롬프트 흐름에서 언어 모델을 사용하려면 먼저 모델을 배포해야 합니다. Azure AI Foundry 포털을 사용하면 흐름에서 사용할 수 있는 OpenAI 모델을 배포할 수 있습니다.
+이 연습에서는 gpt-4o-mini 모델의 성능을 평가합니다. 또한 gpt-4o 모델을 사용하여 AI 지원 평가 메트릭을 생성합니다.
 
-1. 왼쪽 메뉴를 사용하여 **자산** 섹션 아래의 **모델 + 엔드포인트** 페이지로 이동합니다.
-1. **+ 모델 배포** 버튼을 선택하고 **베이스 모델 배포** 옵션을 선택합니다.
-1. **모델 배포** 마법사에서 **사용자 지정**을 선택하여 다음 설정으로 **gpt-4** 모델의 새 배포를 만듭니다.
+1. 프로젝트 왼쪽 탐색 창의 **내 자산** 섹션에서 **모델 + 엔드포인트** 페이지를 선택합니다.
+1. **모델 + 엔드포인트** 페이지의 **모델 배포** 탭의 **+ 모델 배포** 메뉴에서 **기본 모델 배포**를 선택합니다.
+1. 목록에서 **gpt-4o** 모델을 검색하고 선택한 후 확인합니다.
+1. 배포 세부 정보에서 **사용자 지정**을 선택하여 다음 설정으로 모델을 배포합니다.
     - **배포 이름**: *모델 배포에 대한 고유한 이름*
-    - **배포 유형**: 표준
-    - **모델 버전**: *기본 버전 선택*
-    - **AI 리소스**: *이전에 만든 리소스 선택*
-    - **분당 토큰 속도 제한(천 )**: 5K
+    - **배포 유형**: 글로벌 표준
+    - **자동 버전 업데이트**: 사용
+    - **모델 버전**: *사용 가능한 최신 버전 선택*
+    - **연결된 AI 리소스**: *Azure OpenAI 리소스 연결 선택*
+    - **분당 토큰 속도 제한(천 단위)**: 50K *(또는 50K 이하인 경우 구독에서 사용 가능한 최대치)*
     - **콘텐츠 필터**: DefaultV2
-    - **동적 할당량 사용**: 사용할 수 없음
 
-    > **참고**: 배포하려는 모델에 사용할 수 있는 할당량이 현재 AI 리소스 위치에 없는 경우 다른 위치를 선택하여 새 AI 리소스를 만들고 프로젝트에 연결하라는 메시지가 표시됩니다.
+    > **참고**: TPM을 줄이면 사용 중인 구독에서 사용 가능한 할당량을 과도하게 사용하지 않을 수 있습니다. 이 연습에 사용되는 데이터는 50,000TPM이면 충분합니다. 사용 가능한 할당량이 이 수치 이하이면 연습을 완료할 수 있지만 속도 제한을 초과하는 경우 오류가 발생할 수 있습니다.
 
-1. 모델이 배포될 때까지 기다립니다. 배포가 준비되면 **플레이그라운드에서 열기**를 선택합니다.
-1. **모델 지침 및 컨텍스트 제공** 텍스트 상자에서 내용을 다음과 같이 변경합니다.
+1. 배포가 완료될 때가지 기다립니다.
+1. **모델 + 엔드포인트** 페이지로 돌아가서 이전 단계를 반복하여 동일한 설정으로** gpt-4o-mini** 모델을 배포합니다.
 
-   ```
-   **Objective**: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
-
-   **Capabilities**:
-   - Provide up-to-date travel information, including destinations, accommodations, transportation, and local attractions.
-   - Offer personalized travel suggestions based on user preferences, budget, and travel dates.
-   - Share tips on packing, safety, and navigating travel disruptions.
-   - Help with itinerary planning, including optimal routes and must-see landmarks.
-   - Answer common travel questions and provide solutions to potential travel issues.
-    
-   **Instructions**:
-   1. Engage with the user in a friendly and professional manner, as a travel agent would.
-   2. Use available resources to provide accurate and relevant travel information.
-   3. Tailor responses to the user's specific travel needs and interests.
-   4. Ensure recommendations are practical and consider the user's safety and comfort.
-   5. Encourage the user to ask follow-up questions for further assistance.
-   ```
-
-1. **변경 내용 적용**을 선택합니다.
-1. 채팅(기록) 창에서 `What can you do?` 쿼리를 입력하여 언어 모델이 예상대로 작동하는지 확인합니다.
-
-이제 업데이트된 시스템 메시지가 포함된 배포된 모델이 있으므로 모델을 평가할 수 있습니다.
-
-## Azure AI Foundry 포털에서 언어 모델 수동 평가
+## 수동으로 모델 평가
 
 테스트 데이터를 기반으로 모델 응답을 수동으로 검토할 수 있습니다. 수동으로 검토하면 여러 입력을 한 번에 하나씩 테스트하여 모델이 예상대로 수행되는지 여부를 평가할 수 있습니다.
 
-1. **채팅 플레이그라운드**의 위쪽 표시줄에서 **평가** 드롭다운을 선택하고 **수동 평가**를 선택합니다.
-1. **시스템 메시지**를 위에서 사용한 것과 동일한 메시지로 변경합니다(여기에 다시 포함됨).
+1. 새 브라우저 탭의 `https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.csv`에서 [travel_evaluation_data.csv](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.csv)를 다운로드하여 로컬 폴더에 저장합니다.
+1. Azure AI 파운드리 포털 탭으로 돌아가서 탐색 창의 **평가 및 개선** 섹션에서 **평가**를 선택합니다.
+1. **평가** 페이지에서 **수동 평가** 탭을 확인하고 **+ 새 수동 평가**를 선택합니다.
+1. AI 여행 도우미에 대한 다음 지침으로 **시스템 메시지**를 변경합니다.
 
    ```
-   **Objective**: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
+   Objective: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
 
-   **Capabilities**:
+   Capabilities:
    - Provide up-to-date travel information, including destinations, accommodations, transportation, and local attractions.
    - Offer personalized travel suggestions based on user preferences, budget, and travel dates.
    - Share tips on packing, safety, and navigating travel disruptions.
    - Help with itinerary planning, including optimal routes and must-see landmarks.
    - Answer common travel questions and provide solutions to potential travel issues.
     
-   **Instructions**:
+   Instructions:
    1. Engage with the user in a friendly and professional manner, as a travel agent would.
    2. Use available resources to provide accurate and relevant travel information.
    3. Tailor responses to the user's specific travel needs and interests.
@@ -101,67 +87,75 @@ Azure AI 허브는 하나 이상의 *프로젝트*를 정의할 수 있는 공�
    5. Encourage the user to ask follow-up questions for further assistance.
    ```
 
-1. **수동 평가 결과** 섹션에서 출력을 검토할 5개의 입력을 추가합니다. 다음 5개의 질문을 5개의 개별 **입력**으로 입력합니다.
+1. **구성** 섹션의 **모델** 목록에서 **gpt-4o-mini** 모델 배포를 선택합니다.
+1. **수동 평가 결과** 섹션에서 **테스트 데이터 가져오기**를 선택하고 이전에 다운로드한 **travel_evaluation_data.csv** 파일을 업로드합니다. 그리고 데이터 세트 필드를 다음과 같이 매핑합니다.
+    - **입력**: 질문
+    - **예상 응답**: ExpectedResponse
+1. 테스트 파일에서 질문과 예상 답변을 검토합니다. 이를 사용하여 모델이 생성하는 응답을 평가합니다.
+1. 위쪽 막대에서 **실행**을 선택하여 입력으로 추가한 모든 질문에 대한 출력을 생성합니다. 몇 분 후 모델의 응답은 다음과 같이 새 **출력** 열에 표시되어야 합니다.
 
-   `Can you provide a list of the top-rated budget hotels in Rome?`
+    ![Azure AI 파운드리 포털의 수동 평가 스크린샷.](./media/manual-evaluation.png)
 
-   `I'm looking for a vegan-friendly restaurant in New York City. Can you help?`
+1. 각 질문에 대한 출력을 검토하고 모델의 출력을 예상 응답과 비교하한 다음 각 응답의 오른쪽 아래에서 좋아요 또는 싫어요 아이콘을 선택하여 결과를 "채점"합니다.
+1. 응답을 채점한 후 목록 위의 요약 타일을 검토합니다. 그런 다음 도구 모음에서 **결과 저장**을 선택하고 적절한 이름을 할당합니다. 결과를 저장하면 나중에 다른 모델과의 추가 평가 또는 비교 시 이를 검색할 수 있습니다.
 
-   `Can you suggest a 7-day itinerary for a family vacation in Orlando, Florida?`
+## 자동화된 평가 사용
 
-   `Can you help me plan a surprise honeymoon trip to the Maldives?`
+모델 출력을 예상 응답과 수동으로 비교하는 것은 모델의 성능을 평가하는 유용한 방법이 될 수 있지만 다양한 질문과 응답이 예상되는 시나리오에서는 시간이 많이 걸리고, 다양한 모델과 프롬프트 조합을 비교하는 데 사용할 수 있는 표준화된 메트릭이 거의 제공되지 않는다는 단점이 있습니다.
 
-   `Are there any guided tours available for the Great Wall of China?`
+자동화된 평가는 메트릭을 계산하고 AI를 사용하여 일관성, 관련성 및 기타 요인에 대한 응답을 평가하여 이러한 단점을 해결할 수 있는 접근 방식입니다.
 
-1. 위쪽 막대에서 **실행**을 선택하여 입력으로 추가한 모든 질문에 대한 출력을 생성합니다.
-1. 이제 응답 오른쪽 하단에 있는 엄지 손가락 위로 또는 아래로 아이콘을 선택하여 각 질문에 대한 출력을 수동으로 검토할 수 있습니다. 각 응답을 평가할 때는 평가에 엄지손가락을 하나 이상 올리거나 내리는 응답을 포함해야 합니다.
-1. 위쪽 막대에서 **결과 저장**을 선택합니다. 결과의 이름으로 `manual_evaluation_results`를 입력합니다.
-1. 왼쪽 메뉴를 사용하여 **평가**로 이동합니다.
-1. **수동 평가** 탭을 선택하면 방금 저장한 수동 평가를 찾을 수 있습니다. 이전에 만든 수동 평가를 탐색하고 중단한 부분부터 계속 진행하며 업데이트된 평가를 저장할 수 있습니다.
+1. **수동 평가** 페이지 제목 옆에 있는 뒤로 화살표(**&larr;**)를 사용하여 **평가** 페이지로 돌아갑니다.
+1. **자동화된 평가** 탭을 봅니다.
+1. **새 평가 만들기**를 선택하고 메시지가 표시되면 **모델 및 프롬프트를** 평가하는 옵션을 선택합니다.
+1. **새 평가 만들기** 페이지의 **기본 정보** 섹션에서 자동 생성된 기본 평가 이름(원하는 경우 변경할 수 있음)을 검토하고 **gpt-40-mini** 모델 배포를 선택합니다.
+1. 이전에 사용한 AI 여행 도우미에 대한 동일한 지침으로 **시스템 메시지**를 변경합니다.
 
-## 기본 제공 메트릭을 사용하여 채팅 앱 평가
+   ```
+   Objective: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
 
-프롬프트 흐름을 사용하여 채팅 애플리케이션을 만든 경우 일괄 처리를 실행하고 기본 제공 메트릭을 통해 흐름의 성능을 평가하는 방법으로 흐름을 평가할 수 있습니다.
+   Capabilities:
+   - Provide up-to-date travel information, including destinations, accommodations, transportation, and local attractions.
+   - Offer personalized travel suggestions based on user preferences, budget, and travel dates.
+   - Share tips on packing, safety, and navigating travel disruptions.
+   - Help with itinerary planning, including optimal routes and must-see landmarks.
+   - Answer common travel questions and provide solutions to potential travel issues.
+    
+   Instructions:
+   1. Engage with the user in a friendly and professional manner, as a travel agent would.
+   2. Use available resources to provide accurate and relevant travel information.
+   3. Tailor responses to the user's specific travel needs and interests.
+   4. Ensure recommendations are practical and consider the user's safety and comfort.
+   5. Encourage the user to ask follow-up questions for further assistance.
+   ```
 
-![평가를 위한 입력 데이터 세트 생성 다이어그램.](./media/diagram-dataset-evaluation.png)
+1. **테스트 데이터 구성** 섹션에서 GPT 모델을 사용하여 테스트 데이터를 생성하거나(그런 다음 원하는 대로 편집 및 보완할 수 있음), 기존 데이터 세트를 사용하거나 파일을 업로드할 수 있습니다. 이 연습에서는 **기존 데이터 세트 사용**을 선택한 다음, **travel_evaluation_data_csv_*xxxx...*** 데이터 세트(이전 .csv 파일 업로드 시 생성됨)를 선택합니다.
+1. 데이터 세트에서 샘플 행을 검토한 다음 **데이터 열 선택** 섹션에서 다음 열 매핑을 선택합니다.
+    - **쿼리**: 질문
+    - **컨텍스트**: *공백으로 남겨둡니다. 컨텍스트 데이터 원본을 모델과 연결할 때 '근거성'을 평가하는 데 사용됩니다.*
+    - **참값**: ExpectedAnswer
+1. **평가하려는 항목 선택** 섹션에서 다음 평가 범주를 <u>모두</u> 선택합니다.
+    - AI 품질(AI 지원)
+    - 위험 및 안전(AI 지원)
+    - AI 품질(NLP)
+1. **모델 배포를 심사로 선택** 목록에서 **gpt-4o** 모델을 선택합니다. 이 모델은 언어 관련 품질 및 표준 생성형 AI 비교 메트릭에 대한 ***gpt-4o-mini** 모델의 응답을 평가하는 데 사용됩니다.
+1. **만들기**를 선택하고 프로세스가 시작되고 완료될 때까지 기다립니다. 몇 분이 걸릴 수 있습니다.
 
-채팅 흐름을 평가하기 위해 사용자 쿼리 및 채팅 응답이 평가를 위한 입력으로 제공됩니다.
+    > **팁**: 프로젝트 사용 권한이 설정 중임을 나타내는 오류가 표시되는 경우 잠시 기다렸다가 **만들기**를 다시 선택합니다. 새로 만든 프로젝트에 대한 리소스 사용 권한이 전파되기까지 시간이 조금 걸릴 수 있습니다.
 
-시간을 절약하기 위해 프롬프트 흐름에서 처리되는 여러 입력의 결과를 포함하는 일괄 처리 출력 데이터 세트를 만들었습니다. 각 결과는 다음 단계에서 평가할 데이터 세트에 저장됩니다.
+1. 평가가 완료되면 필요한 경우 아래로 스크롤하여 **메트릭 대시보드** 영역을 확인하고 **AI 품질(AI 지원)** 메트릭을 확인합니다.
 
-1. **자동 평가** 탭을 선택하고 <details> 설정을 사용하여 **새 평가**를 만듭니다.  
-      <summary><b>문제 해결 팁</b>: 사용 권한 오류</summary>
-        <p>새 프롬프트 흐름을 만들 때 사용 권한 오류가 표시되는 경우 다음을 시도하여 문제를 해결합니다.</p>
-        <ul>
-          <li>Azure Portal에서 AI 서비스 리소스를 선택합니다.</li>
-          <li>리소스 관리 아래의 ID 탭에서 시스템에서 할당된 관리 ID인지 확인합니다.</li>
-          <li>관련된 스토리지 계정으로 이동합니다. IAM 페이지에서 역할 할당 <em>스토리지 Blob 데이터 독자</em>를 추가합니다.</li>
-          <li><strong>액세스 권한 할당 대상</strong>에서 <strong>관리 ID</strong>, <strong>+구성원 선택</strong>, <strong>모든 시스템 할당 관리 ID</strong>를 선택합니다.</li>
-          <li>새 설정을 검토하고 할당하여 저장하고 이전 단계를 다시 시도합니다.</li>
-        </ul>
-    </details>
+    ![Azure AI 파운드리 포털의 AI 품질 메트릭 스크린샷](./media/ai-quality-metrics.png)
 
-    - **평가할 항목**: 데이터 세트
-    - **평가 이름**: *고유한 이름 입력*
-    - **다음**을 선택합니다.
-    - **평가할 데이터 선택**: 데이터 세트 추가
-        - `https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-qa.jsonl`에서 [유효성 검사 데이터 세트](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/main/data/travel-qa.jsonl)를 다운로드하여 JSONL 파일로 저장하고 UI에 업로드합니다.
+    **<sup>(i)</sup>** 아이콘을 사용하여 메트릭 정의를 봅니다.
 
-    > **참고**: 디바이스는 기본적으로 파일을 .txt 파일로 저장할 수 있습니다. 모든 파일을 선택하고 .txt 접미사를 제거하여 파일을 JSONL 형식으로 저장합니다.
+1. **위험 및 안전** 탭에서 잠재적으로 유해한 콘텐츠와 관련된 메트릭을 확인합니다.
+1. **AI 품질(NLP**) 탭에서 생성형 AI 모델에 대한 표준 메트릭을 확인합니다.
+1. 필요한 경우 페이지 맨 위로 다시 스크롤하고 **데이터** 탭을 선택하여 평가의 원시 데이터를 확인합니다. 데이터에는 각 입력에 대한 메트릭과 응답을 평가할 때 적용되는 gpt-4o 모델의 추론에 대한 설명이 포함됩니다.
 
-    - **다음**을 선택합니다.
-    - **메트릭 선택**: 일관성, 유창성
-    - **연결**: *AI 서비스 연결*
-    - **배포 이름/모델**: *배포된 GPT-4 모델*
-    - **쿼리**: 데이터 원본으로 **쿼리**를 선택합니다.
-    - **응답**: 데이터 원본으로 **응답**을 선택합니다.
-      
-1. **다음**을 선택한 다음 데이터를 검토하고 **제출**을 선택하여 새 평가를 제출합니다.
-1. 평가가 완료될 때까지 기다렸다가 새로 고침해야 할 수도 있습니다.
-1. 방금 만든 평가 실행을 선택합니다.
-1. **보고서** 탭의 **메트릭 대시보드**와 **데이터** 탭의 **메트릭 상세 결과**를 살펴보세요.
+    ![Azure AI 파운드리 포털의 평가 데이터 스크린샷.](./media/evaluation-data.png)
 
-## Azure 리소스 삭제
+## 정리
 
 Azure AI Foundry 탐색을 마치면 불필요한 Azure 비용을 피하기 위해 생성한 리소스를 삭제해야 합니다.
 
