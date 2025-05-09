@@ -1,10 +1,8 @@
 ---
-title: 생성형 AI 솔루션 개발
+title: Azure에서 생성형 AI 솔루션 개발
 permalink: index.html
 layout: home
 ---
-
-# Azure에서 생성형 AI 솔루션 개발
 
 다음 연습은 Microsoft Azure에서 생성형 AI 솔루션을 빌드할 때 개발자가 수행하는 일반적인 작업을 탐색하는 실습 학습 환경을 제공하도록 설계되었습니다.
 
