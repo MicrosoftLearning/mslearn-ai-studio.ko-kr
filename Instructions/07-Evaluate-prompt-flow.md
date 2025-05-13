@@ -66,31 +66,17 @@ lab:
 
 테스트 데이터를 기반으로 모델 응답을 수동으로 검토할 수 있습니다. 수동 검토를 통해 다양한 입력을 테스트하여 모델이 예상대로 작동하는지 평가할 수 있습니다.
 
-1. 새 브라우저 탭의 `https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.csv`에서 [travel_evaluation_data.csv](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.csv)를 다운로드하여 로컬 폴더에 저장합니다.
+1. 새 브라우저 탭에서 `https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.jsonl`의 [travel_evaluation_data.jsonl](https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.jsonl)을 다운로드하여 로컬 폴더에 **travel_evaluation_data.jsonl**로 저장합니다(.txt 파일이 아닌 .jsonl 파일로 저장해야 합니다).
 1. Azure AI 파운드리 포털 탭으로 돌아가서 탐색 창의 **평가 및 개선** 섹션에서 **평가**를 선택합니다.
 1. **평가** 페이지에서 **수동 평가** 탭을 확인하고 **+ 새 수동 평가**를 선택합니다.
+1. **구성** 섹션의 **모델** 목록에서 **gpt-4o-mini** 모델 배포를 선택합니다.
 1. AI 여행 도우미에 대한 다음 지침으로 **시스템 메시지**를 변경합니다.
 
    ```
-   Objective: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
-
-   Capabilities:
-   - Provide up-to-date travel information, including destinations, accommodations, transportation, and local attractions.
-   - Offer personalized travel suggestions based on user preferences, budget, and travel dates.
-   - Share tips on packing, safety, and navigating travel disruptions.
-   - Help with itinerary planning, including optimal routes and must-see landmarks.
-   - Answer common travel questions and provide solutions to potential travel issues.
-    
-   Instructions:
-   1. Engage with the user in a friendly and professional manner, as a travel agent would.
-   2. Use available resources to provide accurate and relevant travel information.
-   3. Tailor responses to the user's specific travel needs and interests.
-   4. Ensure recommendations are practical and consider the user's safety and comfort.
-   5. Encourage the user to ask follow-up questions for further assistance.
+   Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
    ```
 
-1. **구성** 섹션의 **모델** 목록에서 **gpt-4o-mini** 모델 배포를 선택합니다.
-1. **수동 평가 결과** 섹션에서 **테스트 데이터 가져오기**를 선택하고 이전에 다운로드한 **travel_evaluation_data.csv** 파일을 업로드합니다. 그리고 데이터 세트 필드를 다음과 같이 매핑합니다.
+1. **수동 평가 결과** 섹션에서 **테스트 데이터 가져오기**를 선택하고 이전에 다운로드한 **travel_evaluation_data.jsonl** 파일을 업로드합니다. 그리고 데이터 세트 필드를 다음과 같이 매핑합니다.
     - **입력**: 질문
     - **예상 응답**: ExpectedResponse
 1. 테스트 파일에서 질문과 예상 답변을 검토합니다. 이를 사용하여 모델이 생성하는 응답을 평가합니다.
@@ -114,24 +100,10 @@ lab:
 1. 이전에 사용한 AI 여행 도우미에 대한 동일한 지침으로 **시스템 메시지**를 변경합니다.
 
    ```
-   Objective: Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
-
-   Capabilities:
-   - Provide up-to-date travel information, including destinations, accommodations, transportation, and local attractions.
-   - Offer personalized travel suggestions based on user preferences, budget, and travel dates.
-   - Share tips on packing, safety, and navigating travel disruptions.
-   - Help with itinerary planning, including optimal routes and must-see landmarks.
-   - Answer common travel questions and provide solutions to potential travel issues.
-    
-   Instructions:
-   1. Engage with the user in a friendly and professional manner, as a travel agent would.
-   2. Use available resources to provide accurate and relevant travel information.
-   3. Tailor responses to the user's specific travel needs and interests.
-   4. Ensure recommendations are practical and consider the user's safety and comfort.
-   5. Encourage the user to ask follow-up questions for further assistance.
+   Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
    ```
 
-1. **테스트 데이터 구성** 섹션에서 GPT 모델을 사용하여 테스트 데이터를 생성하거나(그런 다음 원하는 대로 편집 및 보완할 수 있음), 기존 데이터 세트를 사용하거나 파일을 업로드할 수 있습니다. 이 연습에서는 **기존 데이터 세트 사용**을 선택한 다음, **travel_evaluation_data_csv_*xxxx...*** 데이터 세트(이전 .csv 파일 업로드 시 생성됨)를 선택합니다.
+1. **테스트 데이터 구성** 섹션에서 GPT 모델을 사용하여 테스트 데이터를 생성하거나(그런 다음 원하는 대로 편집 및 보완할 수 있음), 기존 데이터 세트를 사용하거나 파일을 업로드할 수 있습니다. 이 연습에서는 **기존 데이터 세트 사용**을 선택한 다음, **travel_evaluation_data_jsonl_*xxxx...*** 데이터 세트(이전 .jsonl 파일 업로드 시 생성됨)를 선택합니다.
 1. 데이터 세트에서 샘플 행을 검토한 다음 **데이터 열 선택** 섹션에서 다음 열 매핑을 선택합니다.
     - **쿼리**: 질문
     - **컨텍스트**: *공백으로 남겨둡니다. 컨텍스트 데이터 원본을 모델과 연결할 때 "근거성"을 평가하는 데 사용됩니다.*
