@@ -12,26 +12,24 @@ RAG(검색 증강 생성)은 사용자 지정 데이터 소스의 데이터를 �
 
 이 연습에는 약 **45**분이 소요됩니다.
 
-> **참고**: 이 연습은 출시 전 서비스를 기반으로 하며, 변경될 수 있습니다.
+> **참고**: 이 연습은 시험판 서비스를 기반으로 하며, 변경될 수 있습니다.
 
-## Azure AI 파운드리 허브 및 프로젝트 만들기
+## Azure AI 파운드리 리소스 만들기
 
-이 연습에서 사용할 Azure AI 파운드리의 기능에는 Azure AI 파운드리 *허브* 리소스를 기반으로 하는 프로젝트가 필요합니다.
+먼저 Azure AI 파운드리 리소스를 만들어 보겠습니다.
 
-1. 웹 브라우저에서 [Azure AI 파운드리 포털](https://ai.azure.com)(`https://ai.azure.com`)을 열고 Azure 자격 증명을 사용하여 로그인합니다. 처음 로그인할 때 열리는 팁이나 빠른 시작 창을 닫고, 필요한 경우 왼쪽 위에 있는 **Azure AI 파운드리** 로고를 사용하여 다음 이미지와 유사한 홈페이지로 이동합니다(**도움말** 창이 열려 있는 경우 닫습니다).
-
-    ![Azure AI Foundry 포털의 스크린샷.](./media/ai-foundry-home.png)
-
-1. 브라우저에서 `https://ai.azure.com/managementCenter/allResources`로 이동한 다음 **만들기**를 선택합니다. 그런 다음 새 **AI 허브 리소스**를 만드는 옵션을 선택합니다.
-1. **프로젝트 만들기** 마법사에서 프로젝트의 유효한 이름을 입력하고, 기존 허브가 제안되는 경우 새 허브를 만드는 옵션을 선택한 다음 **고급 옵션**을 확장하여 프로젝트에 대해 다음 설정을 지정합니다.
+1. 웹 브라우저에서 [Azure Portal](https://portal.azure.com)(`https://portal.azure`)을 열고 Azure 자격 증명을 사용하여 로그인합니다. 처음 로그인할 때 열리는 팁이나 빠른 시작 창을 닫습니다.
+1. 다음 설정으로 새 `Azure AI Foundry`리소스를 만듭니다.
     - **구독**: ‘Azure 구독’
     - **리소스 그룹**: ‘리소스 그룹 만들기 또는 선택’
-    - **허브 이름**: 허브에서 유효한 이름
-    - **위치**: 미국 동부 2 또는 스웨덴 중부\*
+    - **이름**: *Azure AI 파운드리 리소스의 유효한 이름*
+    - **지역**: 다음 지역 중 하나를 선택합니다.
+        - 미국 동부 2
+        - 스웨덴 중부
+    - **기본 프로젝트 이름**: *프로젝트의 유효한 이름* 
 
-    > \* 일부 Azure AI 리소스는 지역 모델 할당량에 의해 제한됩니다. 연습 후반부에 할당량 한도를 초과하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
-
-1. 프로젝트가 만들어질 때까지 기다립니다.
+1. 리소스가 만들어질 때까지 기다린 다음, Azure Portal에서 해당 페이지로 이동합니다.
+1. Azure AI 파운드리 리소스 페이지에서 **Azure AI 파운드리 포털로 이동**을 선택합니다.
 
 ## 모델 배포
 
@@ -61,47 +59,40 @@ RAG(검색 증강 생성)은 사용자 지정 데이터 소스의 데이터를 �
 앱 데이터는 가상의 여행사 *Margie's Travel*의 PDF 형식으로 된 여행 브로슈어 세트로 구성됩니다. 프로젝트에 이를 추가해 보겠습니다.
 
 1. 새 브라우저 탭의 `https://github.com/MicrosoftLearning/mslearn-ai-studio/raw/main/data/brochures.zip`에서 [압축된 브로셔 아카이브](https://github.com/MicrosoftLearning/mslearn-ai-studio/raw/main/data/brochures.zip)를 다운로드하고 로컬 파일 시스템의 **브로셔**라는 폴더에 압축을 풉니다.
-1. Azure AI Foundry 포털의 프로젝트에 있는 왼쪽 탐색 창에서 **내 자산** 아래 **데이터 + 인덱스** 페이지를 선택합니다.
-1. **+ 새 데이터**를 선택합니다.
-1. **데이터 추가** 마법사에서 드롭다운 메뉴를 확장하여 **파일/폴더 업로드**를 선택합니다.
-1. **폴더 업로드**를 선택하고 **brochures** 폴더를 업로드합니다. 폴더의 모든 파일이 나열될 때까지 기다립니다.
-1. **다음**을 선택하고 데이터 이름을 `brochures`(으)로 설정합니다.
-1. 폴더가 업로드될 때까지 기다린 후 폴더에 여러 개의 .pdf 파일이 포함되어 있는지 확인합니다.
+1. Azure AI 파운드리 포털의 프로젝트 왼쪽 탐색 창에서 **플레이그라운드**를 선택한 다음 **채팅 플레이그라운드 사용해 보기**를 선택합니다.
+1. 플레이그라운드의 **설정** 창에서 **데이터 추가** 섹션을 확장하고 **데이터 원본 추가**를 선택합니다.
+1. **데이터 추가** 마법사에서 드롭다운 메뉴를 확장하여 **파일 업로드**를 선택합니다.
+1. 다음 설정을 사용하여 새 Azure Blob storage 리소스를 만듭니다.
+    - **구독**: ‘Azure 구독’
+    - **리소스 그룹**: *Azure AI 파운드리 리소스와 동일한 리소스 그룹*
+    - **스토리지 계정 이름**: *스토리지 계정 리소스에 대한 유효한 이름*
+    - **지역**: *Azure AI 파운드리 리소스와 동일한 지역*
+    - **성능**: 표준
+    - **중복도**: LRS
+1. 리소스를 만들고 배포가 완료될 때까지 기다립니다.
+1. Azure AI 파운드리 탭으로 돌아가서 Azure Blob Storage 리소스 목록을 새로 고치고 새로 만든 계정을 선택합니다.
 
-## 데이터에 대한 인덱스 만들기
+    > **참고**: Azure OpenAI가 리소스에 액세스하려면 권한이 필요하다는 경고가 표시되면 **CORS 켜기**를 선택합니다.
 
-이제 프로젝트에 데이터 원본을 추가했으므로 이 데이터 원본을 사용하여 Azure AI 검색 리소스에서 인덱스를 만들 수 있습니다.
+1. 다음 설정을 사용하여 새 Azure AI 검색 리소스를 만듭니다.
+    - **구독**: ‘Azure 구독’
+    - **리소스 그룹**: *Azure AI 파운드리 리소스와 동일한 리소스 그룹*
+    - **서비스 이름**: *Azure AI 검색 리소스의 유효한 이름*
+    - **지역**: *Azure AI 파운드리 리소스와 동일한 지역*
+    - **가격 책정 계층**: 기본
 
-1. Azure AI Foundry 포털의 프로젝트에 있는 왼쪽 탐색 창에서 **내 자산** 아래 **데이터 + 인덱스** 페이지를 선택합니다.
-1. **인덱스** 탭에서 다음 설정을 사용하여 새 인덱스를 추가합니다.
-    - **원본 위치**:
-        - **데이터 원본**: Azure AI 파운드리의 데이터
-            - ***brochures** 데이터 원본을 선택합니다.*
-    - **인덱스 구성**:
-        - **Azure AI 검색 서비스 선택**: *다음 설정으로 새 Azure AI 검색 리소스를 만듭니다*.
-            - **구독**: *Azure 구독*
-            - **리소스 그룹**: *AI 허브와 동일한 리소스 그룹*
-            - **서비스 이름**: *AI 검색 리소스의 유효한 이름*
-            - **위치**: *AI 허브와 동일한 위치*
-            - **가격 책정 계층**: 기본
-            
-            AI 검색 리소스가 생성될 때까지 기다립니다. 그런 다음 Azure AI 파운드리로 돌아가서 **다른 Azure AI 검색 리소스 연결**을 선택하고 방금 만든 AI 검색 리소스에 연결을 추가하여 인덱스 구성을 마칩니다.
- 
-        - **벡터 인덱스**: `brochures-index`
-        - **가상 머신**: 자동 선택
-    - **검색 설정**:
-        - **벡터 설정**: 이 검색 리소스에 벡터 검색을 추가합니다.
-        - **Azure OpenAI 연결**: *허브에 대한 기본 Azure OpenAI 리소스를 선택합니다.*
-        - **포함 모델**: text-embedding-ada-002
-        - **포함 모델 배포**: * text-embedding-ada-002 *모델*의 배포*
+1. 리소스를 만들고 배포가 완료될 때까지 기다립니다.
+1. Azure AI 파운드리 탭으로 돌아가서 Azure AI 검색 리소스 목록을 새로 고치고 새로 만든 계정을 선택합니다.
+1. 인덱스 `brochures-index` 이름을 지정합니다.
+1. **이 검색 리소스에 벡터 검색 추가** 옵션을 사용하도록 설정하고 이전에 배포한 포함 모델을 선택합니다 **다음**을 선택합니다.
 
-1. 구독에서 사용 가능한 컴퓨팅 리소스에 따라 다소 시간이 걸릴 수 있는 벡터 인덱스를 만들 인덱싱 프로세스가 완료될 때까지 기다립니다.
+   >**참고**: **데이터 추가** 마법사에서 배포된 포함 모델을 인식할 때까지 시간이 걸릴 수 있으므로 벡터 검색 옵션을 사용하도록 설정할 수 없는 경우 마법사를 취소하고 몇 분 정도 기다렸다가 다시 시도하세요.
 
-    인덱스 만들기 작업은 다음 작업으로 구성됩니다.
-
-    - 브로슈어 데이터에 텍스트 토큰을 해독, 청크 및 포함합니다.
-    - Azure AI 검색 인덱스 만들기
-    - 인덱스 자산 등록
+1. 이전에 추출한 **브로셔** 폴더에서 모든 .pdf 파일을 업로드한 후 **다음**을 선택합니다.
+1. **데이터 관리** 단계에서 검색 유형 **하이브리드(벡터 + 키워드)** 와 청크 크기 **1024**를 선택합니다. **다음**을 선택합니다.
+1. **데이터 연결** 단계에서 인증 유형으로 **API 키**를 선택합니다. **다음**을 선택합니다.
+1. 모든 구성 단계를 검토한 다음 **저장 및 닫기**를 선택합니다.
+1. 구독에서 사용 가능한 컴퓨팅 리소스에 따라 시간이 걸릴 수 있는 인덱싱 프로세스가 완료될 때까지 기다립니다.
 
     > **팁**: 인덱스가 생성되기를 기다리는 동안 다운로드한 브로셔를 살펴보고 내용을 알아보는 것은 어떨까요?
 
@@ -109,51 +100,40 @@ RAG(검색 증강 생성)은 사용자 지정 데이터 소스의 데이터를 �
 
 RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스를 사용하여 생성형 AI 응답에 영향을 줄 수 있는지 확인해 보겠습니다.
 
-1. 왼쪽 탐색 창에서 **플레이그라운드** 페이지를 선택하고 **채팅** 플레이그라운드를 엽니다.
 1. 채팅 플레이그라운드 페이지의 설정 창에서 **gpt-4o** 모델 배포가 선택되어 있는지 확인합니다. 그런 다음 기본 채팅 세션 패널에서 프롬프트 `Where can I stay in New York?`를 제출합니다.
-1. 응답을 검토합니다. 이때 응답은 인덱스의 데이터 없이 모델에서 생성된 일반적인 답변이어야 합니다.
-1. 설정 창에서 **데이터 추가** 필드를 확장한 다음 **brochures-index** 프로젝트 인덱스를 추가하고 **하이브리드(벡터+키워드)** 검색 유형을 선택합니다.
-
-   > **팁**: 경우에 따라 새로 만든 인덱스를 즉시 사용할 수 없습니다. 브라우저를 새로 고치면 일반적으로 도움이 되지만 인덱스를 찾을 수 없는 문제가 계속 발생하는 경우 인덱스가 인식될 때까지 기다려야 할 수도 있습니다.
-
-1. 인덱스가 추가되고 채팅 세션이 다시 시작된 후 프롬프트 `Where can I stay in New York?`를 다시 제출합니다.
 1. 응답을 검토합니다. 응답은 인덱스에 있는 데이터를 기반으로 해야 합니다.
 
-<!-- DEPRECATED STEPS
+## RAG 클라이언트 앱 만들기
 
-## Create a RAG client app with the Azure AI Foundry and Azure OpenAI SDKs
+이제 작업 인덱스가 있으므로 Azure OpenAI SDK를 사용하여 클라이언트 애플리케이션에서 RAG 패턴을 구현할 수 있습니다. 간단한 예제를 통해 이 작업을 수행하는 코드를 살펴보겠습니다.
 
-Now that you have a working index, you can use the Azure AI Foundry and Azure OpenAI SDKs to implement the RAG pattern in a client application. Let's explore the code to accomplish this in a simple example.
+> **팁**: Python 또는 Microsoft C#을 사용하여 RAG 솔루션을 개발하도록 선택할 수 있습니다. 선택한 언어의 해당 섹션에 있는 지침을 따릅니다.
 
-> **Tip**: You can choose to develop your RAG solution using Python or Microsoft C#. Follow the instructions in the appropriate section for your chosen language.
+### 애플리케이션 구성 준비
 
-### Prepare the application configuration
+1. Azure Portal이 포함된 브라우저 탭으로 돌아갑니다(기존 탭에 Azure AI 파운드리 포털 열어두기).
+1. 페이지 상단의 검색 창 오른쪽에 있는 **[\>_]** 단추를 사용하여 Azure Portal에서 새 Cloud Shell을 만들고 구독에 저장소가 없는 ***PowerShell*** 환경을 선택합니다.
 
-1. In the Azure AI Foundry portal, view the **Overview** page for your project.
-1. In the **Project details** area, note the **Project connection string**. You'll use this connection string to connect to your project in a client application.
-1. Return to the browser tab containing the Azure portal (keeping the Azure AI Foundry portal open in the existing tab).
-1. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment with no storage in your subscription.
+    Cloud Shell은 Azure Portal 하단의 창에서 명령줄 인터페이스를 제공합니다. 보다 쉽게 작업할 수 있도록 이 창의 크기를 조정하거나 최대화할 수 있습니다.
 
-    The cloud shell provides a command-line interface in a pane at the bottom of the Azure portal. You can resize or maximize this pane to make it easier to work in.
+    > **참고**: 이전에 *Bash* 환경을 사용하는 Cloud Shell을 만든 경우 ***PowerShell***로 전환합니다.
 
-    > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, switch it to ***PowerShell***.
+1. Cloud Shell 도구 모음의 **설정** 메뉴에서 **클래식 버전으로 이동**을 선택합니다(코드 편집기를 사용하는 데 필요).
 
-1. In the cloud shell toolbar, in the **Settings** menu, select **Go to Classic version** (this is required to use the code editor).
+    **<font color="red">계속하기 전에 Cloud Shell의 클래식 버전으로 전환했는지 확인합니다.</font>**
 
-    **<font color="red">Ensure you've switched to the classic version of the cloud shell before continuing.</font>**
-
-1. In the cloud shell pane, enter the following commands to clone the GitHub repo containing the code files for this exercise (type the command, or copy it to the clipboard and then right-click in the command line and paste as plain text):
+1. Cloud Shell 창에서 다음 명령을 입력하여 이 연습의 코드 파일이 포함된 GitHub 리포지토리를 복제합니다(명령을 입력하거나 클립보드에 복사한 다음 명령줄을 마우스 오른쪽 단추로 클릭하여 일반 텍스트로 붙여넣습니다).
 
     ```
     rm -r mslearn-ai-foundry -f
     git clone https://github.com/microsoftlearning/mslearn-ai-studio mslearn-ai-foundry
     ```
 
-    > **Tip**: As you paste commands into the cloudshell, the output may take up a large amount of the screen buffer. You can clear the screen by entering the `cls` command to make it easier to focus on each task.
+    > **팁**: CloudShell에 명령을 붙여넣으면 출력이 화면 버퍼의 많은 부분을 차지할 수 있습니다. `cls` 명령을 입력해 화면을 지우면 각 작업에 더 집중할 수 있습니다.
 
-1. After the repo has been cloned, navigate to the folder containing the chat application code files:
+1. 리포지토리가 복제된 후 채팅 애플리케이션 코드 파일이 포함된 폴더로 이동합니다.
 
-    > **Note**: Follow the steps for your chosen programming language.
+    > **참고**: 선택한 프로그래밍 언어에 대한 단계를 따릅니다.
 
     **Python**
 
@@ -167,26 +147,24 @@ Now that you have a working index, you can use the Azure AI Foundry and Azure Op
    cd mslearn-ai-foundry/labfiles/rag-app/c-sharp
     ```
 
-1. In the cloud shell command-line pane, enter the following command to install the libraries you'll use:
+1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 OpenAI SDK 라이브러리를 설치합니다.
 
     **Python**
 
     ```
    python -m venv labenv
    ./labenv/bin/Activate.ps1
-   pip install python-dotenv azure-ai-projects azure-identity openai
+   pip install -r requirements.txt openai
     ```
 
     **C#**
 
     ```
-   dotnet add package Azure.Identity
-   dotnet add package Azure.AI.Projects --prerelease
-   dotnet add package Azure.AI.OpenAI --prerelease
+   dotnet add package Azure.AI.OpenAI
     ```
     
 
-1. Enter the following command to edit the configuration file that has been provided:
+1. 제공된 구성 파일을 편집하려면 다음 명령을 입력합니다.
 
     **Python**
 
@@ -200,18 +178,21 @@ Now that you have a working index, you can use the Azure AI Foundry and Azure Op
    code appsettings.json
     ```
 
-    The file is opened in a code editor.
+    코드 편집기에서 파일이 열립니다.
 
-1. In the code file, replace the following placeholders: 
-    - **your_project_connection_string**: Replace with the connection string for your project (copied from the project **Overview** page in the Azure AI Foundry portal).
-    - **your_gpt_model_deployment** Replace with the name you assigned to your **gpt-4o** model deployment.
-    - **your_embedding_model_deployment**: Replace with the name you assigned to your **text-embedding-ada-002** model deployment.
-    - **your_index**: Replace with your index name (which should be `brochures-index`).
-1. After you've replaced the placeholders, in the code editor, use the **CTRL+S** command or **Right-click > Save** to save your changes and then use the **CTRL+Q** command or **Right-click > Quit** to close the code editor while keeping the cloud shell command line open.
+1. 아래 코드에서 다음 자리 표시자를 바꿉니다. 
+    - **your_openai_endpoint**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
+    - **your_openai_api_key**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI API 키(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
+    - **your_chat_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **gpt-4o** 모델 배포에 할당한 이름입니다(기본 이름은 `gpt-4o`).
+    - **your_embedding_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **text-embedding-ada-002** 모델 배포에 할당한 이름입니다(기본 이름은 `text-embedding-ada-002`).
+    - **your_search_endpoint**: Azure AI 검색 리소스의 URL입니다. Azure AI 파운드리 포털의 **관리 센터**에서 찾을 수 있습니다.
+    - **your_search_api_key**: Azure AI 검색 리소스에 대한 API 키입니다. Azure AI 파운드리 포털의 **관리 센터**에서 찾을 수 있습니다.
+    - **your_index**: Azure AI 파운드리 포털에서 프로젝트의 **데이터 + 인덱스** 페이지에 있는 인덱스 이름으로 바꿉니다(`brochures-index`이어야 함).
+1. 자리 표시자를 바꾼 후 코드 편집기에서 **CTRL+S** 명령 또는 **마우스 오른쪽 단추 클릭 > 저장**을 사용하여 변경 내용을 저장한 다음 **CTRL+Q** 명령 또는 **마우스 오른쪽 단추 클릭 > 끝내기**를 사용하여 Cloud Shell 명령줄을 열어둔 채 코드 편집기를 닫습니다.
 
-### Explore code to implement the RAG pattern
+### RAG 패턴을 구현하는 코드 탐색
 
-1. Enter the following command to edit the code file that has been provided:
+1. 제공된 코드 파일을 편집하려면 다음 명령을 입력합니다.
 
     **Python**
 
@@ -225,24 +206,22 @@ Now that you have a working index, you can use the Azure AI Foundry and Azure Op
    code Program.cs
     ```
 
-1. Review the code in the file, noting that it:
-    - Uses the Azure AI Foundry SDK to connect to your project (using the project connection string)
-    - Creates an authenticated Azure OpenAI client from your project connection.
-    - Retrieves the default Azure AI Search connection from your project so it can determine the endpoint and key for your Azure AI Search service.
-    - Creates a suitable system message.
-    - Submits a prompt (including the system and a user message based on the user input) to the Azure OpenAI client, adding:
-        - Connection details for the Azure AI Search index to be queried.
-        - Details of the embedding model to be used to vectorize the query\*.
-    - Displays the response from the grounded prompt.
-    - Adds the response to the chat history.
+1. 파일의 코드를 검토하여 다음을 확인합니다.
+    - 엔드포인트, 키 및 채팅 모델을 사용하여 Azure OpenAI 클라이언트를 만듭니다.
+    - 여행 관련 채팅 솔루션에 적합한 시스템 메시지를 만듭니다.
+    - 사용자 입력에 기반한 시스템 및 사용자 메시지를 포함한 프롬프트를 Azure OpenAI 클라이언트에 제출하고 다음을 추가합니다.
+        - 쿼리할 Azure AI 검색 인덱스에 대한 연결 세부 정보입니다.
+        - 쿼리를 벡터화하는 데 사용할 임베딩 모델의 세부 정보\*.
+    - 그라운딩된 프롬프트의 응답을 표시합니다.
+    - 채팅 기록에 응답을 추가합니다.
 
-    \* *The query for the search index is based on the prompt, and is used to find relevant text in the indexed documents. You can use a keyword-based search that submits the query as text, but using a vector-based search can be more efficient - hence the use of an embedding model to vectorize the query text before submitting it.*
+    \**검색 인덱스에 대한 쿼리는 프롬프트에 기반하며 색인된 문서에서 관련 텍스트를 찾는 데 사용됩니다. 쿼리를 텍스트로 제출하는 키워드 기반 검색을 사용할 수도 있지만 벡터 기반 검색을 사용하는 것이 더 효율적일 수 있으므로 임베딩 모델을 사용하여 쿼리 텍스트를 제출하기 전에 벡터화하는 것이 좋습니다.*
 
-1. Use the **CTRL+Q** command to close the code editor without saving any changes, while keeping the cloud shell command line open.
+1. **Ctrl +Q** 명령을 사용하여 Cloud Shell 명령줄을 열어 두고 변경 사항을 저장하지 않은 채 코드 편집기를 닫습니다.
 
-### Run the chat application
+### 채팅 애플리케이션 실행
 
-1. In the cloud shell command-line pane, enter the following command to run the app:
+1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 앱을 실행합니다.
 
     **Python**
 
@@ -256,15 +235,13 @@ Now that you have a working index, you can use the Azure AI Foundry and Azure Op
    dotnet run
     ```
 
-1. When prompted, enter a question, such as `Where should I go on vacation to see architecture?` and review the response from your generative AI model.
+1. 메시지가 표시되면 `Where should I go on vacation to see architecture?`과 같은 질문을 입력하고 생성형 AI 모델의 응답을 검토합니다.
 
-    Note that the response includes source references to indicate the indexed data in which the answer was found.
+    응답에는 답변이 발견된 인덱싱된 데이터를 나타내는 원본 참조가 포함됩니다.
 
-1. Try a follow-up question, for example `Where can I stay there?`
+1. 예를 들어 후속 질문을 시도합니다. `Where can I stay there?` 
 
-1. When you're finished, enter `quit` to exit the program. Then close the cloud shell pane.
-
--->
+1. 완료되면 `quit`를 입력하여 프로그램을 종료합니다. 다음으로 Cloud Shell 창을 닫습니다.
 
 ## 정리
 
