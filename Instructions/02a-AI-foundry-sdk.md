@@ -10,53 +10,35 @@ lab:
 
 이 연습은 약 **40**분 정도 소요됩니다.
 
-> **참고**: 이 연습은 변경될 수 있는 시험판 SDK를 기반으로 합니다. 필요한 경우 특정 버전의 패키지를 사용했으며, 이는 최신 버전이 반영되지 않을 수 있습니다.
+> **참고**: 이 연습은 변경될 수 있는 시험판 SDK를 기반으로 합니다. 필요한 경우 특정 버전의 패키지를 사용했으며, 이는 최신 버전이 반영되지 않을 수 있습니다. 예기치 않은 동작, 경고 또는 오류가 발생할 수 있습니다.
 
-## Azure AI 파운드리 프로젝트 만들기
+## Azure AI 파운드리 프로젝트에서 모델 배포
 
-먼저 Azure AI 파운드리 프로젝트를 만들어 보겠습니다.
+Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해 보겠습니다.
 
-1. 웹 브라우저에서 [Azure AI 파운드리 포털](https://ai.azure.com)(`https://ai.azure.com`)을 열고 Azure 자격 증명을 사용하여 로그인합니다. 처음 로그인할 때 열리는 팁이나 빠른 시작 창을 닫고, 필요한 경우 왼쪽 위에 있는 **Azure AI 파운드리** 로고를 사용하여 다음 이미지(**도움말** 창이 열려 있는 경우 닫습니다)와 유사한 홈페이지로 이동합니다.
+1. 웹 브라우저에서 [Azure AI 파운드리 포털](https://ai.azure.com)(`https://ai.azure.com`)을 열고 Azure 자격 증명을 사용하여 로그인합니다. 처음 로그인할 때 열리는 팁이나 빠른 시작 창을 닫고, 필요한 경우 왼쪽 위에 있는 **Azure AI 파운드리** 로고를 사용하여 다음 이미지와 유사한 홈페이지로 이동합니다(**도움말** 창이 열려 있는 경우 닫습니다).
 
     ![Azure AI Foundry 포털의 스크린샷.](./media/ai-foundry-home.png)
 
-1. 홈페이지에서 **+ 프로젝트 만들기**를 선택합니다.
-1. **프로젝트 만들기** 마법사에서 유효한 프로젝트 이름을 입력하고 기존 허브가 추천되면 새 허브를 만드는 옵션을 선택합니다. 그런 다음 허브 및 프로젝트를 지원하기 위해 자동으로 만들어지는 Azure 리소스를 검토합니다.
-1. **사용자 지정**을 선택하고 허브에 대해 다음 설정을 지정합니다.
-    - **허브 이름**: *허브에서 유효한 이름*
+1. 홈페이지의 **모델 및 기능 탐색** 섹션에서 프로젝트에 사용할 `gpt-4o` 모델을 검색합니다.
+1. 검색 결과에서 **GPT-4O** 모델을 선택하여 세부 정보를 확인한 다음 해당 모델의 페이지 상단에서 **이 모델 사용**을 선택합니다.
+1. 프로젝트를 만들라는 메시지가 표시되면 프로젝트의 유효한 이름을 입력하고 **고급 옵션**을 펼칩니다.
+1. **사용자 지정**을 선택하고 프로젝트에 대해 다음 설정을 지정합니다.
+    - **Azure AI 파운드리 리소스**: *Azure AI 파운드리 리소스의 유효한 이름*
     - **구독**: ‘Azure 구독’
     - **리소스 그룹**: ‘리소스 그룹 만들기 또는 선택’
-    - **위치**: **선택 도움말**을 선택한 다음 위치 도우미 창에서 **gpt-4**를 선택하고 권장되는 지역을 사용합니다.\*
-    - **Azure AI 서비스 또는 Azure OpenAI** 연결: *새 AI 서비스 리소스 만들기*
-    - **Azure AI 검색 연결**: 연결 건너뛰기
+    - **지역**: **AI 서비스 지원 위치 *선택***\*
 
-    > \* Azure OpenAI 리소스는 지역 모델에 따라 제한됩니다. 연습 후반부에 할당량 한도를 초과하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
+    > \* 일부 Azure AI 리소스는 지역 모델 할당량에 의해 제한됩니다. 연습 후반부에 할당량 한도를 초과하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.
 
-1. **다음**을 선택하여 구성을 검토합니다. **만들기**를 선택하고 프로세스가 완료될 때까지 기다립니다.
-1. 프로젝트를 만들 때 표시되는 팁을 모두 닫고 Azure AI 파운드리 포털에서 프로젝트 페이지를 검토합니다. 이 페이지는 다음 이미지와 유사합니다.
+1. **만들기**를 선택하고 선택한 GPT-4 모델 배포를 포함한 프로젝트가 생성될 때까지 기다립니다.
+1. 프로젝트를 만들면 채팅 플레이그라운드가 자동으로 열립니다.
+1. **설정** 창에서 모델 배포의 이름을 기록합니다(**GPT-4o**이어야 함). **모델 및 엔드포인트** 페이지에서 배포를 확인하면 이를 확인할 수 있습니다(왼쪽 탐색 창에서 해당 페이지를 열면 됩니다).
+1. 왼쪽 탐색 창에서 **개요**를 선택하면 다음과 같은 프로젝트의 메인 페이지가 표시됩니다.
 
-    ![Azure AI 파운드리 포털의 Azure AI 프로젝트 세부 정보 스크린샷.](./media/ai-foundry-project.png)
+    > **참고**: *권한 부족** 오류가 표시되면 **수정** 버튼을 사용하여 문제를 해결합니다.
 
-## 생성형 AI 모델 배포
-
-이제 채팅 애플리케이션을 지원하기 위해 생성형 AI 언어 모델을 배포할 준비가 되었습니다. 이 예제에서는 OpenAI gpt-4o 모델을 사용하지만 원칙은 모든 모델에 동일합니다.
-
-1. Azure AI 파운드리 프로젝트 페이지의 오른쪽 위에 있는 도구 모음에서 **미리 보기 기능**(**&#9215;**) 아이콘을 사용하여 **Azure AI 모델 추론 서비스에 모델 배포** 기능을 사용하도록 설정합니다. 이 기능을 사용하면 애플리케이션 코드에서 사용할 Azure AI 유추 서비스에서 모델 배포를 사용할 수 있습니다.
-1. 프로젝트 왼쪽 창의 **내 자산** 섹션에서 **모델 + 엔드포인트** 페이지를 선택합니다.
-1. **모델 + 엔드포인트** 페이지의 **모델 배포** 탭의 **+ 모델 배포** 메뉴에서 **기본 모델 배포**를 선택합니다.
-1. 목록에서 **gpt-4o** 모델을 검색하고 선택한 후 확인합니다.
-1. 배포 세부 정보에서 **사용자 지정**을 선택하여 다음 설정으로 모델을 배포합니다.
-    - **배포 이름**: *모델 배포에 대한 고유한 이름*
-    - **배포 유형**: 글로벌 표준
-    - **자동 버전 업데이트**: 사용
-    - **모델 버전**: *사용 가능한 최신 버전 선택*
-    - **연결된 AI 리소스**: *Azure OpenAI 리소스 연결 선택*
-    - **분당 토큰 속도 제한(천 단위)**: 50K *(또는 50K 이하인 경우 구독에서 사용 가능한 최대치)*
-    - **콘텐츠 필터**: DefaultV2
-
-    > **참고**: TPM을 줄이면 사용 중인 구독에서 사용 가능한 할당량을 과도하게 사용하지 않을 수 있습니다. 이 연습에 사용되는 데이터는 50,000TPM이면 충분합니다. 사용 가능한 할당량이 이 수치 이하이면 연습을 완료할 수 있지만 속도 제한을 초과하는 경우 오류가 발생할 수 있습니다.
-
-1. 배포가 완료될 때가지 기다립니다.
+    ![Azure AI 파운드리 프로젝트 개요 페이지의 스크린샷.](./media/ai-foundry-project.png)
 
 ## 모델과 채팅할 클라이언트 응용 프로그램 만들기
 
@@ -67,7 +49,7 @@ lab:
 ### 애플리케이션 구성 준비
 
 1. Azure AI 파운드리 포털에서 프로젝트의 **개요** 페이지를 봅니다.
-1. **프로젝트 세부 정보** 영역에서 **프로젝트 연결 문자열**을 확인합니다. 이 연결 문자열 사용하여 클라이언트 응용 프로그램에서 프로젝트에 연결합니다.
+1. **프로젝트 세부 정보** 영역에서 **Azure AI 파운드리 프로젝트 엔드포인트**에 주목합니다. 이 엔드포인트를 사용하여 클라이언트 응용 프로그램에서 프로젝트에 연결할 수 있습니다.
 1. 새 브라우저 탭을 엽니다(Azure AI 파운드리 포털을 기존 탭에서 열어 두기). 그런 다음 새 탭에서 [Azure Portal](https://portal.azure.com)(`https://portal.azure.com`)을 열고 메시지가 나타나면 Azure 자격 증명을 사용하여 로그인합니다.
 
     Azure Portal 홈페이지를 보려면 환영 알림을 닫습니다.
@@ -85,8 +67,8 @@ lab:
 1. Cloud Shell 창에서 다음 명령을 입력하여 이 연습의 코드 파일이 포함된 GitHub 리포지토리를 복제합니다(명령을 입력하거나 클립보드에 복사한 다음 명령줄을 마우스 오른쪽 단추로 클릭하고 일반 텍스트로 붙여넣기).
 
     ```
-    rm -r mslearn-ai-foundry -f
-    git clone https://github.com/microsoftlearning/mslearn-ai-studio mslearn-ai-foundry
+   rm -r mslearn-ai-foundry -f
+   git clone https://github.com/microsoftlearning/mslearn-ai-studio mslearn-ai-foundry
     ```
 
     > **팁**: CloudShell에 명령을 입력하면 출력이 화면 버퍼의 많은 부분을 차지할 수 있습니다. `cls` 명령을 입력해 화면을 지우면 각 작업에 더 집중할 수 있습니다.
@@ -121,8 +103,8 @@ lab:
 
     ```
    dotnet add package Azure.Identity
-   dotnet add package Azure.AI.Projects --version 1.0.0-beta.3
-   dotnet add package Azure.AI.Inference --version 1.0.0-beta.3
+   dotnet add package Azure.AI.Projects --version 1.0.0-beta.9
+   dotnet add package Azure.AI.Inference --version 1.0.0-beta.5
     ```
     
 
@@ -142,7 +124,7 @@ lab:
 
     코드 편집기에서 파일이 열립니다.
 
-1. 코드 파일에서 **your_project_connection_string** 자리 표시자를 프로젝트의 연결 문자열(Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에서 복사함)로 바꾸고, **your_model_deployment** 자리 표시자를 GPT-4 모델 배포에 할당한 이름으로 바꿉니다.
+1. 코드 파일에서 **your_project_endpoint** 자리 표시자를 프로젝트의 엔드포인트(Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에서 복사)로 바꾸고, **your_model_deployment** 자리 표시자는 GPT-4 모델 배포 이름으로 바꿉니다.
 1. 자리 표시자를 바꾼 후 코드 편집기에서 **CTRL+S** 명령 또는 **마우스 오른쪽 단추 클릭 > 저장**을 사용하여 변경 내용을 저장한 다음 **CTRL+Q** 명령 또는 **마우스 오른쪽 단추 클릭 > 종료**를 사용하여 Cloud Shell 명령줄을 열어둔 채 코드 편집기를 닫습니다.
 
 ### 프로젝트에 연결하고 모델과 채팅하는 코드를 작성합니다.
@@ -193,17 +175,25 @@ lab:
 
     ```python
    # Initialize the project client
-   projectClient = AIProjectClient.from_connection_string(
-        conn_str=project_connection,
-        credential=DefaultAzureCredential())
+   projectClient = AIProjectClient(            
+            credential=DefaultAzureCredential(
+                exclude_environment_credential=True,
+                exclude_managed_identity_credential=True
+            ),
+            endpoint=project_connection,
+        )
     ```
 
     **C#**
 
     ```csharp
    // Initialize the project client
-   var projectClient = new AIProjectClient(project_connection,
-                        new DefaultAzureCredential());
+   DefaultAzureCredentialOptions options = new()
+       { ExcludeEnvironmentCredential = true,
+        ExcludeManagedIdentityCredential = true };
+   var projectClient = new AIProjectClient(
+        new Uri(project_connection),
+        new DefaultAzureCredential(options));
     ```
 
 1. **채팅 클라이언트 가져오기** 주석을 찾아 다음 코드를 추가하여 모델과 채팅할 클라이언트 개체를 만듭니다.
@@ -278,9 +268,20 @@ lab:
 
 1. **CTRL+S** 명령을 사용하여 변경 내용을 코드 파일에 저장합니다.
 
-### 채팅 애플리케이션 실행
+### Azure에 로그인하고 앱 실행
 
-1. 코드 편집기 아래의 Cloud Shell 명령줄 창에서 다음 명령을 입력하여 앱을 실행합니다.
+1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 Azure에 로그인합니다.
+
+    ```
+   az login
+    ```
+
+    **<font color="red">Cloud Shell 세션이 이미 인증되었더라도 Azure에 로그인해야 합니다.</font>**
+
+    > **참고**: 대부분의 시나리오에서는 *az login*을 사용하는 것만으로도 충분합니다. 그러나 여러 테넌트에 구독이 있는 경우 *--tenant* 매개 변수를 사용하여 테넌트 지정해야 할 수 있습니다. 자세한 내용은 [Sign into Azure interactively using the Azure CLI](https://learn.microsoft.com/cli/azure/authenticate-azure-cli-interactively)를 참조하세요.
+    
+1. 메시지가 표시되면 지침에 따라 새 탭에서 로그인 페이지를 열고 제공된 인증 코드와 Azure 자격 증명을 입력합니다. 그런 다음 명령줄에서 로그인 프로세스를 완료하고 메시지가 표시되면 Azure AI 파운드리 허브가 포함된 구독을 선택합니다.
+1. 로그인한 후 다음 명령을 입력하여 애플리케이션을 실행합니다.
 
     **Python**
 
@@ -300,150 +301,14 @@ lab:
 
 > **팁**: 속도 제한을 초과하여 앱이 실패하는 경우. 몇 초 정도 기다렸다가 다시 시도하세요. 구독에서 사용할 수 있는 할당량이 부족한 경우 모델이 응답하지 않을 수 있습니다.
 
-## OpenAI SDK 사용
-
-클라이언트 앱은 Azure AI 모델 추론 SDK를 사용하여 빌드됩니다. 즉, Azure AI 모델 추론 서비스에 배포된 모든 모델과 함께 사용할 수 있습니다. 배포한 모델은 OpenAI SDK로 사용할 수 있는 OpenAI GPT 모델입니다.
-
-OpenAI SDK를 사용하여 채팅 애플리케이션을 구현하는 방법을 확인하기 위해 몇 가지 코드를 수정해 보겠습니다.
-
-1. 코드 폴더의 Cloud Shell 명령줄(*python* 또는 *c-sharp*)에 다음 명령을 입력하여 필요한 패키지를 설치합니다.
-
-    **Python**
-
-    ```
-   pip install openai
-    ```
-
-    **C#**
-
-    ```
-   dotnet add package Azure.AI.Projects --version 1.0.0-beta.6
-   dotnet add package Azure.AI.OpenAI --prerelease
-    ```
-
-> **참고**: Azure AI 모델 추론 SDK와의 일부 비호환성에 대한 임시 해결 방법으로 Azure.AI.Projects 패키지의 다른 시험판 버전이 필요합니다.
-
-1. 코드 파일(*chat-app.py* 또는 *Program.cs*)이 아직 열려 있지 않으면 다음 명령을 입력하여 코드 편집기에서 엽니다.
-
-    **Python**
-
-    ```
-   code chat-app.py
-    ```
-
-    **C#**
-
-    ```
-   code Program.cs
-    ```
-
-1. 코드 파일 상단에 다음 참조를 추가합니다.
-
-    **Python**
-
-    ```python
-   import openai
-    ```
-
-    **C#**
-
-    ```csharp
-   using OpenAI.Chat;
-   using Azure.AI.OpenAI;
-    ```
-
-1. **채팅 클라이언트 가져오기** 주석을 찾아 클라이언트 개체를 만드는 데 사용된 코드를 다음과 같이 수정합니다.
-
-    **Python**
-
-    ```python
-   # Get a chat client 
-   openai_client = projectClient.inference.get_azure_openai_client(api_version="2024-10-21")
-    ```
-
-    **C#**
-
-    ```csharp
-   // Get a chat client
-   ChatClient openaiClient = projectClient.GetAzureOpenAIChatClient(model_deployment);
-    ```
-
-    > **참고**: 이 코드는 Azure AI 파운드리 프로젝트 클라이언트를 사용하여 프로젝트와 연결된 기본 Azure OpenAI 서비스 엔드포인트에 대한 보안 연결을 만듭니다. 또한 Azure OpenAI SDK를 사용하여 Azure AI 파운드리 포털 또는 Azure Portal의 해당 Azure OpenAI 또는 AI 서비스 리소스 페이지에서 서비스 연결을 위해 표시되는 엔드포인트 URI를 지정하고 인증 키 또는 Entra 자격 증명 토큰을 사용하여 엔드포인트에 *직접* 연결할 수도 있습니다. Azure OpenAI Service 연결에 대한 자세한 내용은 [Azure OpenAI 지원 프로그래밍 언어](https://learn.microsoft.com/azure/ai-services/openai/supported-languages)를 참조하세요.
-
-1. **시스템 메시지로 프롬프트 초기화** 주석을 찾아 다음과 같이 시스템 프롬프트로 메시지 모음을 초기화하도록 코드를 수정합니다.
-
-    **Python**
-
-    ```python
-   # Initialize prompt with system message
-   prompt=[
-        {"role": "system", "content": "You are a helpful AI assistant that answers questions."}
-    ]
-    ```
-
-    **C#**
-
-    ```csharp
-   // Initialize prompt with system message
-    var prompt = new List<ChatMessage>(){
-        new SystemChatMessage("You are a helpful AI assistant that answers questions.")
-    };
-    ```
-
-1. **Get a chat completion** 주석을 찾아 사용자 입력을 프롬프트에 추가하도록 코드를 수정하고, 모델에서 완료를 검색한 다음 다음과 같이 프롬프트에 완료를 추가합니다.
-
-    **Python**
-
-    ```python
-   # Get a chat completion
-   prompt.append({"role": "user", "content": input_text})
-   response = openai_client.chat.completions.create(
-        model=model_deployment,
-        messages=prompt)
-   completion = response.choices[0].message.content
-   print(completion)
-   prompt.append({"role": "assistant", "content": completion})
-    ```
-
-    **C#**
-
-    ```csharp
-   // Get a chat completion
-   prompt.Add(new UserChatMessage(input_text));
-   ChatCompletion completion = openaiClient.CompleteChat(prompt);
-   var completionText = completion.Content[0].Text;
-   Console.WriteLine(completionText);
-   prompt.Add(new AssistantChatMessage(completionText));
-    ```
-
-1. **CTRL+S** 명령을 사용하여 변경 내용을 코드 파일에 저장합니다.
-
-1. 코드 편집기 아래의 Cloud Shell 명령줄 창에서 다음 명령을 입력하여 앱을 실행합니다.
-
-    **Python**
-
-    ```
-   python chat-app.py
-    ```
-
-    **C#**
-
-    ```
-   dotnet run
-    ```
-
-1. 이전과 같이 질문을 제출하여 앱을 테스트합니다. 완료되면 `quit`를 입력하여 프로그램을 종료합니다.
-
-    > **참고**: Azure AI 모델 추론 SDK와 OpenAI SDK는 유사한 클래스 및 코드 구성을 사용하므로 코드 변경이 거의 필요하지 않습니다. Azure AI 모델 추론 서비스 엔드포인트에 배포된 *모든* 모델과 함께 Azure AI 모델 추론 SDK를 사용할 수 있습니다. OpenAI SDK는 OpenAI 모델에서만 작동하지만 Azure AI 모델 추론 서비스 엔드포인트 또는 Azure OpenAI 엔드포인트에 배포된 모델에 사용할 수 있습니다.  
-
 ## 요약
 
-이 연습에서는 Azure AI 파운드리, Azure AI 모델 추론 및 Azure OpenAI SDK를 사용하여 Azure AI 파운드리 프로젝트에 배포한 생성형 AI 모델용 클라이언트 애플리케이션을 만들었습니다.
+이 연습에서는 Azure AI 파운드리 SDK를 사용하여 Azure AI 파운드리 프로젝트에 배포한 생성형 AI 모델에 대한 클라이언트 응용 프로그램을 만들었습니다.
 
 ## 정리
 
 Azure AI Foundry 포털 탐색을 완료한 경우 불필요한 Azure 비용이 발생하지 않도록 이 연습에서 만든 리소스를 삭제해야 합니다.
 
-1. Azure Portal이 포함된 브라우저 탭으로 돌아가서(또는 새 브라우저 탭의 `https://portal.azure.com`에서 [Azure Portal](https://portal.azure.com)을 다시 열고) 이 연습에 사용된 리소스를 배포한 리소스 그룹의 콘텐츠를 확인합니다.
+1. [Azure Portal](https://portal.azure.com)을 열고 이 연습에 사용된 리소스를 배포한 리소스 그룹의 내용을 확인합니다.
 1. 도구 모음에서 **리소스 그룹 삭제**를 선택합니다.
 1. 리소스 그룹 이름을 입력하고 삭제할 것인지 확인합니다.
