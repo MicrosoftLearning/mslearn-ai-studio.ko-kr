@@ -22,8 +22,8 @@ RAG(검색 증강 생성)은 사용자 지정 데이터 소스의 데이터를 �
 
     ![Azure AI Foundry 포털의 스크린샷.](./media/ai-foundry-home.png)
 
-1. 브라우저에서 `https://ai.azure.com/managementCenter/allResources`로 이동한 다음 **만들기**를 선택합니다. 그런 다음 새 **AI 허브 리소스**를 만드는 옵션을 선택합니다.
-1. **프로젝트 만들기** 마법사에서 유효한 프로젝트 이름을 입력하고 **허브 이름 바꾸기** 링크를 사용하여 새 허브의 유효한 이름을 지정합니다. 그런 다음 **고급 옵션**을 확장하고 프로젝트에 대해 다음 설정을 지정합니다.
+1. 브라우저에서 `https://ai.azure.com/managementCenter/allResources`로 이동하여 **새로 만들기**를 선택합니다. 그런 다음 새 **AI 허브 리소스**를 만드는 옵션을 선택합니다.
+1. **프로젝트 만들기** 마법사에서 유효한 프로젝트 이름을 입력하고 새 허브를 만드는 옵션을 선택합니다. 그런 다음 **허브 이름 바꾸기** 링크를 사용하여 새 허브의 유효한 이름을 지정하고 **고급 옵션**을 확장한 후 프로젝트에 대해 다음 설정을 지정합니다.
     - **구독**: ‘Azure 구독’
     - **리소스 그룹**: ‘리소스 그룹 만들기 또는 선택’
     - **지역**:  미국 동부 2 또는 스웨덴 중부(*연습 후반부에 할당량 한도를 초과하는 경우 다른 지역에서 다른 리소스를 만들어야 할 수도 있습니다.*)
@@ -198,8 +198,8 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
     코드 편집기에서 파일이 열립니다.
 
 1. 아래 코드에서 다음 자리 표시자를 바꿉니다. 
-    - **your_openai_endpoint**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
-    - **your_openai_api_key**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI API 키(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
+    - **your_openai_endpoint**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택 해야 함)
+    - **your_openai_api_key** Azure AI Foundry 포털의 **프로젝트 개요** 페이지에 있는 Open AI API 키(Azure AI 유추 또는 Azure AI Services 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
     - **your_chat_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **gpt-4o** 모델 배포에 할당한 이름입니다(기본 이름은 `gpt-4o`).
     - **your_embedding_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **text-embedding-ada-002** 모델 배포에 할당한 이름입니다(기본 이름은 `text-embedding-ada-002`).
     - **your_search_endpoint**: Azure AI 검색 리소스의 URL입니다. Azure AI 파운드리 포털의 **관리 센터**에서 찾을 수 있습니다.
@@ -251,6 +251,8 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
     ```
    dotnet run
     ```
+
+    > **팁**: .NET 버전 9.0이 설치되지 않아 컴파일 오류가 발생하는 경우 `dotnet --version` 명령을 사용하여 환경에 설치된 .NET 버전을 확인한 다음, 코드 폴더에서 **rag_app.csproj** 파일을 편집하여 **TargetFramework** 설정을 적절히 업데이트합니다.
 
 1. 메시지가 표시되면 `Where should I go on vacation to see architecture?`과 같은 질문을 입력하고 생성형 AI 모델의 응답을 검토합니다.
 
