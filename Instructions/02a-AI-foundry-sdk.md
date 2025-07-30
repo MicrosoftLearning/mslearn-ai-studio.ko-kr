@@ -36,8 +36,6 @@ Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해
 1. **설정** 창에서 모델 배포의 이름을 기록합니다(**GPT-4o**이어야 함). **모델 및 엔드포인트** 페이지에서 배포를 확인하면 이를 확인할 수 있습니다(왼쪽 탐색 창에서 해당 페이지를 열면 됩니다).
 1. 왼쪽 탐색 창에서 **개요**를 선택하면 다음과 같은 프로젝트의 메인 페이지가 표시됩니다.
 
-    > **참고**: *권한 부족** 오류가 표시되면 **수정** 버튼을 사용하여 문제를 해결합니다.
-
     ![Azure AI 파운드리 프로젝트 개요 페이지의 스크린샷.](./media/ai-foundry-project.png)
 
 ## 모델과 채팅할 클라이언트 응용 프로그램 만들기
@@ -152,8 +150,9 @@ Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해
     ```python
    # Add references
    from dotenv import load_dotenv
+   from urllib.parse import urlparse
    from azure.identity import DefaultAzureCredential
-   from azure.ai.projects import AIProjectClient
+   from azure.ai.inference import ChatCompletionsClient
    from azure.ai.inference.models import SystemMessage, UserMessage, AssistantMessage
     ```
 
@@ -167,48 +166,36 @@ Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해
     ```
 
 1. **main** 함수의 **구성 설정 가져오기** 주석 아래에서 해당 코드가 구성 파일에서 정의한 프로젝트 연결 문자열 및 모델 배포 이름 값을 로드한다는 점에 유의합니다.
-1. **프로젝트 클라이언트 초기화** 주석을 찾아 다음 코드를 추가하여 현재 로그인한 Azure 자격 증명을 사용하여 Azure AI 파운드리 프로젝트에 연결합니다.
+1. **채팅 클라이언트 가져오기** 주석을 찾아 다음 코드를 추가하여 모델과 채팅할 클라이언트 개체를 만듭니다.
 
     > **팁**: 코드의 들여쓰기 수준을 올바르게 유지하도록 주의하세요.
 
     **Python**
 
     ```python
-   # Initialize the project client
-   projectClient = AIProjectClient(            
-            credential=DefaultAzureCredential(
-                exclude_environment_credential=True,
-                exclude_managed_identity_credential=True
-            ),
-            endpoint=project_connection,
-        )
-    ```
-
-    **C#**
-
-    ```csharp
-   // Initialize the project client
-   DefaultAzureCredentialOptions options = new()
-       { ExcludeEnvironmentCredential = true,
-        ExcludeManagedIdentityCredential = true };
-   var projectClient = new AIProjectClient(
-        new Uri(project_connection),
-        new DefaultAzureCredential(options));
-    ```
-
-1. **채팅 클라이언트 가져오기** 주석을 찾아 다음 코드를 추가하여 모델과 채팅할 클라이언트 개체를 만듭니다.
-
-    **Python**
-
-    ```python
    # Get a chat client
-   chat = projectClient.inference.get_chat_completions_client()
+   inference_endpoint = f"https://{urlparse(project_endpoint).netloc}/models"
+
+   credential = DefaultAzureCredential(exclude_environment_credential=True,
+                                        exclude_managed_identity_credential=True,
+                                        exclude_interactive_browser_credential=False)
+
+   chat = ChatCompletionsClient(
+            endpoint=inference_endpoint,
+            credential=credential,
+            credential_scopes=["https://ai.azure.com/.default"])
     ```
 
     **C#**
 
     ```csharp
    // Get a chat client
+   DefaultAzureCredentialOptions options = new()More actions
+           { ExcludeEnvironmentCredential = true,
+            ExcludeManagedIdentityCredential = true };
+   var projectClient = new AIProjectClient(
+            new Uri(project_connection),
+            new DefaultAzureCredential(options));
    ChatCompletionsClient chat = projectClient.GetChatCompletionsClient();
     ```
 
@@ -294,6 +281,8 @@ Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해
     ```
    dotnet run
     ```
+
+    > **팁**: .NET 버전 9.0이 설치되지 않아 컴파일 오류가 발생하는 경우 `dotnet --version` 명령을 사용하여 환경에 설치된 .NET 버전을 확인한 다음, 코드 폴더에서 **chat_app.csproj** 파일을 편집하여 **TargetFramework** 설정을 적절히 업데이트합니다.
 
 1. 메시지가 표시되면 `What is the fastest animal on Earth?`과 같은 질문을 입력하고 생성형 AI 모델의 응답을 검토합니다.
 1. `Where can I see one?` 또는 `Are they endangered?` 등의 후속 질문을 해보세요. 대화는 각 반복에 대한 컨텍스트로 채팅 기록을 사용하여 계속되어야 합니다.

@@ -34,7 +34,7 @@ Azure AI Foundry의 모델 카탈로그는 다양한 모델을 탐색하고 사�
     ![gpt-4o 모델 벤치마크 페이지의 스크린샷.](./media/gpt4-benchmarks.png)
 
 1. 모델 카탈로그로 돌아가려면 **GPT-4o** 페이지 제목 옆의 뒤로 화살표(**&larr;**)를 사용합니다.
-1. `Phi-3.5-mini-instruct`을(를) 검색하여 **Phi-3.5-mini-instruct** 모델에 대한 세부 정보 및 벤치마크를 확인합니다.
+1. `Phi-4-mini-instruct`를 검색하여 **Phi-4-mini-instruct** 모델에 대한 세부 정보 및 벤치마크를 확인합니다.
 
 ## 모델 비교
 
@@ -47,16 +47,14 @@ Azure AI Foundry의 모델 카탈로그는 다양한 모델을 탐색하고 사�
 
 1. **비교할 모델** 창에서 *질문 답변*과 같이 인기 있는 작업을 선택하면 특정 작업에 일반적으로 사용되는 모델을 자동으로 선택할 수 있습니다.
 1. **모든 모델 지우기**(&#128465;) 아이콘을 사용하여 미리 선택한 모델을 모두 제거합니다.
-1. **+ 비교할 모델** 단추를 사용하여 **gpt-4o** 모델을 목록에 추가합니다. 그런 다음 같은 버튼을 사용하여 **Phi-3.5-mini-instruct** 모델을 목록에 추가합니다.
+1. **+ 비교할 모델** 단추를 사용하여 **gpt-4o** 모델을 목록에 추가합니다. 그런 다음, 같은 버튼을 사용하여 **Phi-4-mini-instruct** 모델을 목록에 추가합니다.
 1. **품질 지수**(모델 품질을 나타내는 표준화된 점수)와 **비용**을 기준으로 모델을 비교한 차트를 검토합니다. 차트에서 모델을 나타내는 지점 위에 마우스를 올려놓으면 모델의 특정 값을 볼 수 있습니다.
 
-    ![gpt-4o 및 Phi-3.5-mini-instruct의 모델 비교 차트 스크린샷.](./media/comparison-chart.png)
+    ![gpt-4o 및 Phi-4-mini-instruct의 모델 비교 차트 스크린샷](./media/comparison-chart.png)
 
 1. **X축** 드롭다운 메뉴에서 **품질** 아래에 있는 다음 메트릭을 선택하고 다음으로 전환하기 전에 각 결과 차트를 관찰합니다.
     - 정확도(Accuracy)
-    - 일관성
-    - 유창성
-    - 정확도
+    - 품질 인덱스
 
     벤치마크에 따르면 GPT-4o 모델이 전반적인 성능은 가장 우수하지만 비용이 더 높은 것으로 보입니다.
 
@@ -103,27 +101,25 @@ Azure AI Foundry의 모델 카탈로그는 다양한 모델을 탐색하고 사�
 
 ## 또 다른 모델 배포
 
-프로젝트를 만들 때 선택한 **GPT-4o** 모델이 자동으로 배포되었습니다. 또한 고려했던 ***Phi-3.5-mini-instruct** 모델을 배포해 보겠습니다.
+프로젝트를 만들 때 선택한 **GPT-4o** 모델이 자동으로 배포되었습니다. 또한 고려했던 ***Phi-4-mini-instruct** 모델을 배포해 보겠습니다.
 
 1. 왼쪽 탐색 표시줄의 **내 자산** 섹션에서 **모델 + 엔드포인트**를 선택합니다.
-1. **모델 배포** 탭의 **+ 모델 배포** 드롭다운 목록에서 **베이스 모델 배포**를 선택합니다. 그런 다음 `Phi-3.5-mini-instruct`을(를) 검색하고 선택을 확인합니다.
+1. **모델 배포** 탭의 **+ 모델 배포** 드롭다운 목록에서 **베이스 모델 배포**를 선택합니다. 그런 다음 `Phi-4-mini-instruct`을(를) 검색하고 선택을 확인합니다.
 1. 모델 라이선스에 동의합니다.
-1. 다음 설정으로 **Phi-3.5-mini-instruct** 모델을 배포합니다.
+1. 다음 설정으로 **Phi-4-mini-instruct** 모델을 배포합니다.
     - **배포 이름**: *모델 배포에 대한 유효한 이름*
     - **배포 유형**: 글로벌 표준
     - **배포 세부 정보**: *기본 설정 사용*
 
 1. 배포가 완료될 때가지 기다립니다.
 
-## *Phi-3.5* 모델과 채팅
+## *Phi-4* 모델과 채팅
 
 이제 플레이그라운드에서 새 모델과 채팅해 보겠습니다.
 
 1. 탐색 모음에서 **플레이그라운드**를 선택합니다. 그런 다음 **채팅 플레이그라운드**를 선택합니다.
-1. 채팅 플레이그라운드의 **설정** 창에서 **Phi-3.5-mini-instruct** 모델이 선택되어 있는지 확인하고 **모델 지침 및 컨텍스트 제공** 필드에서 `You are an AI assistant that helps solve problems.`(GPT-4o 모델 테스트에 사용한 것과 동일한 시스템 프롬프트)로 시스템 프롬프트를 설정합니다.
-1. **변경 내용 적용**을 선택하여 시스템 프롬프트를 업데이트합니다.
-1. 이전에 gpt-4 모델을 테스트할 때 사용한 것과 동일한 프롬프트를 반복하기 전에 새 채팅 세션이 시작되었는지 확인합니다.
-1. 채팅창에 다음 쿼리를 입력합니다.
+1. 채팅 플레이그라운드의 **설정** 창에서 **Phi-4-mini-instruct** 모델이 선택되어 있는지 확인하고 채팅 상자에서 첫 번째 줄을 `System message: You are an AI assistant that helps solve problems.`으로 제공합니다(gpt-4o 모델을 테스트하는 데 사용한 것과 동일한 시스템 프롬프트이지만 시스템 메시지 설정이 없으므로 컨텍스트에 대한 첫 번째 채팅에서 제공).
+1. 채팅 창의 새 줄(시스템 메시지 아래)에서 다음 쿼리를 입력합니다.
 
     ```
    I have a fox, a chicken, and a bag of grain that I need to take over a river in a boat. I can only take one thing at a time. If I leave the chicken and the grain unattended, the chicken will eat the grain. If I leave the fox and the chicken unattended, the fox will eat the chicken. How can I get all three things across the river without anything being eaten?
