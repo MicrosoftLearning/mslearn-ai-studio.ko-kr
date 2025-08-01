@@ -10,9 +10,15 @@ RAG(검색 증강 생성)은 사용자 지정 데이터 소스의 데이터를 �
 
 이 연습에서는 Azure AI 파운드리를 사용하여 사용자 지정 데이터를 생성형 AI 솔루션에 통합합니다.
 
-이 연습에는 약 **45**분이 소요됩니다.
+> **참고**: 이 연습의 코드는 사전 출시된 SDK 소프트웨어를 기반으로 하며, 변경될 수 있습니다. 필요한 경우 특정 버전의 패키지를 사용했으며, 이는 최신 버전이 반영되지 않을 수 있습니다. 예기치 않은 동작, 경고 또는 오류가 발생할 수 있습니다.
 
-> **참고**: 이 연습은 시험판 서비스를 기반으로 하며, 변경될 수 있습니다.
+이 연습은 Azure OpenAI Python SDK를 기반으로 하지만 다음을 포함하여 여러 언어별 SDK를 사용하여 AI 채팅 애플리케이션을 개발할 수 있습니다. 포함 사항:
+
+- [Python용 OpenAI](https://pypi.org/project/openai/)
+- [Microsoft .NET용 Azure Open AI](https://www.nuget.org/packages/Azure.AI.OpenAI)
+- [TypeScript용 Azure OpenAI](https://www.npmjs.com/package/@azure/openai)
+
+이 연습에는 약 **45**분이 소요됩니다.
 
 ## Azure AI 파운드리 허브 및 프로젝트 만들기
 
@@ -124,8 +130,6 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
 
 이제 작업 인덱스가 있으므로 Azure OpenAI SDK를 사용하여 클라이언트 애플리케이션에서 RAG 패턴을 구현할 수 있습니다. 간단한 예제를 통해 이 작업을 수행하는 코드를 살펴보겠습니다.
 
-> **팁**: Python 또는 Microsoft C#을 사용하여 RAG 솔루션을 개발하도록 선택할 수 있습니다. 선택한 언어의 해당 섹션에 있는 지침을 따릅니다.
-
 ### 애플리케이션 구성 준비
 
 1. Azure Portal이 포함된 브라우저 탭으로 돌아갑니다(기존 탭에 Azure AI 파운드리 포털 열어두기).
@@ -150,23 +154,11 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
 
 1. 리포지토리가 복제된 후 채팅 애플리케이션 코드 파일이 포함된 폴더로 이동합니다.
 
-    > **참고**: 선택한 프로그래밍 언어에 대한 단계를 따릅니다.
-
-    **Python**
-
     ```
    cd mslearn-ai-foundry/labfiles/rag-app/python
     ```
 
-    **C#**
-
-    ```
-   cd mslearn-ai-foundry/labfiles/rag-app/c-sharp
-    ```
-
 1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 OpenAI SDK 라이브러리를 설치합니다.
-
-    **Python**
 
     ```
    python -m venv labenv
@@ -174,30 +166,15 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
    pip install -r requirements.txt openai
     ```
 
-    **C#**
-
-    ```
-   dotnet add package Azure.AI.OpenAI
-    ```
-    
-
 1. 제공된 구성 파일을 편집하려면 다음 명령을 입력합니다.
-
-    **Python**
 
     ```
    code .env
     ```
 
-    **C#**
-
-    ```
-   code appsettings.json
-    ```
-
     코드 편집기에서 파일이 열립니다.
 
-1. 아래 코드에서 다음 자리 표시자를 바꿉니다. 
+1. 구성 파일에서 다음 자리 표시자를 바꾸세요. 
     - **your_openai_endpoint**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택 해야 함)
     - **your_openai_api_key** Azure AI Foundry 포털의 **프로젝트 개요** 페이지에 있는 Open AI API 키(Azure AI 유추 또는 Azure AI Services 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
     - **your_chat_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **gpt-4o** 모델 배포에 할당한 이름입니다(기본 이름은 `gpt-4o`).
@@ -211,16 +188,8 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
 
 1. 제공된 코드 파일을 편집하려면 다음 명령을 입력합니다.
 
-    **Python**
-
     ```
    code rag-app.py
-    ```
-
-    **C#**
-
-    ```
-   code Program.cs
     ```
 
 1. 파일의 코드를 검토하여 다음을 확인합니다.
@@ -240,19 +209,9 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
 
 1. Cloud Shell 명령줄 창에서 다음 명령을 입력하여 앱을 실행합니다.
 
-    **Python**
-
     ```
    python rag-app.py
     ```
-
-    **C#**
-
-    ```
-   dotnet run
-    ```
-
-    > **팁**: .NET 버전 9.0이 설치되지 않아 컴파일 오류가 발생하는 경우 `dotnet --version` 명령을 사용하여 환경에 설치된 .NET 버전을 확인한 다음, 코드 폴더에서 **rag_app.csproj** 파일을 편집하여 **TargetFramework** 설정을 적절히 업데이트합니다.
 
 1. 메시지가 표시되면 `Where should I go on vacation to see architecture?`과 같은 질문을 입력하고 생성형 AI 모델의 응답을 검토합니다.
 
