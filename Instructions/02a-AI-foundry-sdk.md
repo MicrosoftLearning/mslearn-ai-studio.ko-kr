@@ -147,7 +147,7 @@ Azure AI 파운드리 프로젝트에 모델을 배포하는 것부터 시작해
 
     ```python
    # Get a chat client
-   openai_client = project_client.inference.get_azure_openai_client(api_version="2024-10-21")
+   openai_client = project_client.get_openai_client(api_version="2024-10-21")
     ```
 
 1. 주석 **시스템 메시지로 프롬프트 초기화**를 찾아 다음 코드를 추가하여 시스템 프롬프트로 메시지 모음을 초기화합니다.
