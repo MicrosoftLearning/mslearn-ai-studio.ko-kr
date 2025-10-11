@@ -175,8 +175,8 @@ RAG 기반 프롬프트 흐름에서 인덱스를 사용하기 전에 인덱스�
     코드 편집기에서 파일이 열립니다.
 
 1. 구성 파일에서 다음 자리 표시자를 바꾸세요. 
-    - **your_openai_endpoint**: Azure AI 파운드리 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(Azure AI 유추 또는 Azure AI 서비스 기능이 아닌 **Azure OpenAI** 기능 탭을 선택 해야 함)
-    - **your_openai_api_key** Azure AI Foundry 포털의 **프로젝트 개요** 페이지에 있는 Open AI API 키(Azure AI 유추 또는 Azure AI Services 기능이 아닌 **Azure OpenAI** 기능 탭을 선택해야 함)
+    - **your_openai_endpoint**: Azure AI Foundry 포털의 프로젝트 **개요** 페이지에 있는 Open AI 엔드포인트(**Azure OpenAI** 기능 탭을 선택해야 함).
+    - **your_openai_api_key** Azure AI Foundry 포털의 프로젝트 **개요** 페이지에 있는 Open AI API 키(**Azure OpenAI** 기능 탭을 선택해야 함).
     - **your_chat_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **gpt-4o** 모델 배포에 할당한 이름입니다(기본 이름은 `gpt-4o`).
     - **your_embedding_model**: Azure AI 파운드리 포털의 **모델 + 엔드포인트** 페이지에서 **text-embedding-ada-002** 모델 배포에 할당한 이름입니다(기본 이름은 `text-embedding-ada-002`).
     - **your_search_endpoint**: Azure AI 검색 리소스의 URL입니다. Azure AI 파운드리 포털의 **관리 센터**에서 찾을 수 있습니다.
