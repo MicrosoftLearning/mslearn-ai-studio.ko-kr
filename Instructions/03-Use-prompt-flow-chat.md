@@ -46,7 +46,7 @@ Azure AI 파운드리의 프롬프트 흐름 도구는 Blob Storage 내 폴더�
 
     ![Azure Portal의 스토리지 계정 액세스 제어 페이지 스크린샷.](./media/storage-access-control.png)
 
-1. Azure AI 파운드리 리소스에서 사용하는 관리 ID의 역할에 `Storage blob data reader` 역할 할당을 추가합니다.
+1. Azure AI Foundry 프로젝트 리소스에서 사용하는 관리 ID의 `Storage blob data reader` 역할에 역할 할당을 추가합니다.
 
     ![Azure Portal의 스토리지 계정 액세스 제어 페이지 스크린샷.](./media/assign-role-access.png)
 
