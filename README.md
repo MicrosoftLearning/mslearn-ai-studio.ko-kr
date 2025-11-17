@@ -1,3 +1,5 @@
+**⚠️ This GitHub repo will retire on 28th November 2025.**
+
 # Azure에서 생성형 AI 솔루션 개발
 
 이 리포지토리의 연습은 개발자가 Microsoft Azure에서 생성형 AI 솔루션을 빌드할 때 수행하는 일반적인 작업을 살펴볼 수 있는 실습 학습 환경을 제공하도록 설계되었습니다.
